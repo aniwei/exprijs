@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/aniwei/exprijs/issues"
   },
-  "homepage": "https://github.com/aniwei/exprijs#readme"
+  "homepage": "https://github.com/aniwei/exprijs#readme",
+  "devDependencies": {
+    "webpack": "^4.31.0"
+  }
 }
