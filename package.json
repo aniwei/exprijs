@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --watch --color --progress",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,16 @@
   },
   "homepage": "https://github.com/aniwei/exprijs#readme",
   "devDependencies": {
-    "webpack": "^4.31.0"
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-remove-strict-mode": "0.0.2",
+    "http-server": "^0.11.1",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
   }
 }

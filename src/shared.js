@@ -1,4 +1,5 @@
-export const EMPATY_OBJECT = {};
+export const EMPTY_OBJECT = {};
+export const EMPTY_ARRAY = [];
 
 
 export const workTags = {
@@ -28,3 +29,70 @@ export const workTags = {
 // export const DehydratedSuspenseComponent = 18;
 // export const EventComponent = 19;
 // export const EventTarget = 20;
+
+
+export const isArray = Array.isArray;
+export const assign = Object.assign;
+export const keys = Object.keys;
+
+export function isNullOrUndefined (o) {
+  return o === undefined || o === null
+}
+
+export function isInvalid (o) {
+  return isNullOrUndefined(o) || o === true || o === false
+}
+
+export function isVNode (node) {
+  return !isNullOrUndefined(node) && node.vtype === VType.Node
+}
+
+export function isVText (node) {
+  return !isNullOrUndefined(node) && node.vtype === VType.Text
+}
+
+export function isComponent (instance) {
+  return !isInvalid(instance) && instance.isReactComponent === EMPTY_OBJ
+}
+
+export function isWidget (
+  node
+) {
+  return (
+    !isNullOrUndef(node) &&
+    (node.vtype & (VType.Composite | VType.Stateless)) > 0
+  )
+}
+
+export function isComposite (node) {
+  return !isNullOrUndef(node) && node.vtype === VType.Composite
+}
+
+export function isStateless (node) {
+  return !isNullOrUndef(node) && node.vtype === VType.Stateless
+}
+
+export function isValidElement (node) {
+  return !isNullOrUndef(node) && node.vtype
+}
+
+export function isHook (arg) {
+  return !isNullOrUndef(arg) && typeof arg.vhook === 'number'
+}
+
+export function flatten (array, result = []) {
+  const length = array.length;
+
+  for (let i = 0; i < length; i++) {
+    const value = array[i];
+    if (isArray(value)) {
+      flatten(value, result);
+    } else {
+      result.push(value);
+    }
+  }
+
+  return result;
+}
+
+export function noop () {}
