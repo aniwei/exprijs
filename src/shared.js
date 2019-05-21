@@ -1,5 +1,7 @@
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY = [];
+export const NO_EFFECT = null;
+export const NO_WORK = null;
 
 
 export const workTags = {
