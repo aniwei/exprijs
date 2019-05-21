@@ -1,84 +1,59 @@
-import { 
-  isArray,
-  isNullOrUndefined,
-  EMPTY_ARRAY
-} from './shared'
+import createElement from './create-element'
+import createVText from './vdom/create-vtext'
+import { extend, clone, isArray, isString, isNumber } from 'nerv-utils'
+import { isVText, isVNode, EMPTY_CHILDREN, VType, isNullOrUndef, isPortal, isInvalid } from 'nerv-shared'
+import { createVoid } from './vdom/create-void'
 
-
-const Children = {
-  map (children, iterate, context) {
-    if (isNullOrUndefined(children)) {
-      return children;
-    }
-
-    children = Children.toArray(children);
-    if (context && context !== children) {
-      iterate = iterate.bind(context);
-    }
-
-    return children.map(iterate);
-  },
-
-  forEach (
-    children,
-    iterate,
-    context
-  ) {
-    if (!isNullOrUndefined(children)) {
-      children = Children.toArray(children);
-      const length = children.length;
-
-      if (length > 0) {
-        if (context && context !== children) {
-          iterate = iterate.bind(context);
-        }
-    
-        for (let i = 0; i < lenght; i++) {
-          const child = isInvalid(children[i]) ? null : children[i];
-    
-          iterate(child, i, children);
-        }
-      }
-    }
-  },
-
-  count (children) {
-    children = Children.toArray(children);
-    return children.length;
-  },
-
-  only (children) {
-    children = Children.toArray(children);
-    if (children.length !== 1) {
-      throw new Error('Children.only() expects only one child.');
-    }
-
-    return children[0];
-  },
-
-  toArray (children) {
-    if (isNullOrUndefined(children)) {
-      return [];
-    }
-    if (isArray(children)) {
-      const result = []
-
-      flatten(children, result)
-
-      return result
-    }
-    return EMPTY_CHILDREN.concat(children)
+export default function cloneElement (vnode, props?: object, ...children): any {
+  if (isVText(vnode)) {
+    return createVText(vnode.text)
   }
-}
-
-function flatten (arr, result) {
-  for (let i = 0, len = arr.length; i < len; i++) {
-    const value = arr[i]
-    if (isArray(value)) {
-      flatten(value, result)
-    } else {
-      result.push(value)
+  if (isString(vnode) || isNumber(vnode)) {
+    return createVText(vnode)
+  }
+  if (isInvalid(vnode)
+    || (!isInvalid(vnode) && isPortal(vnode.vtype, vnode))
+    || (vnode && (vnode.vtype & VType.Void))) {
+    return createVoid()
+  }
+  const properties = clone(extend(clone(vnode.props), props))
+  if (vnode.namespace) {
+    properties.namespace = vnode.namespace
+  }
+  if ((vnode.vtype & VType.Composite) && !isNullOrUndef(vnode.ref)) {
+    properties.ref = vnode.ref
+  }
+  let childrenTmp =
+    (arguments.length > 2 ?
+      [].slice.call(arguments, 2) :
+      vnode.children || properties.children) || []
+  if (childrenTmp.length) {
+    if (childrenTmp.length === 1) {
+      childrenTmp = children[0]
     }
   }
-  return result
+  if (isArray(vnode)) {
+    return vnode.map((item) => {
+      return cloneElement(item)
+    })
+  }
+  const newVNode = createElement(vnode.type, properties)
+  if (isArray(childrenTmp)) {
+    let _children = childrenTmp.map((child) => {
+      return cloneElement(child, child.props)
+    })
+    if (_children.length === 0) {
+      _children = EMPTY_CHILDREN
+    }
+    if (isVNode(newVNode)) {
+      newVNode.children = _children
+    }
+    newVNode.props.children = _children
+  } else if (childrenTmp) {
+    if (isVNode(newVNode)) {
+      newVNode.children = cloneElement(childrenTmp)
+    }
+    newVNode.props.children = cloneElement(childrenTmp, childrenTmp.props)
+  }
+  return newVNode
 }

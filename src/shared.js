@@ -41,6 +41,14 @@ export const is = Object.is || function (x, y) {
   return x !== x && y !== y;
 }
 
+export function isNull (o) {
+  return o === null;
+}
+
+export function isUndefined (o) {
+  return o === undefined;
+}
+
 export function isFunction (o) {
   return typeof o === 'function';
 }
@@ -54,7 +62,7 @@ export function isNumber (o) {
 }
 
 export function isNullOrUndefined (o) {
-  return o === undefined || o === null
+  return o === undefined || o === null;
 }
 
 export function isInvalid (o) {
@@ -143,6 +151,22 @@ export function shallowEqual (objectA, objectB) {
   }
 
   return true;
+}
+
+export function extend (target, source) {
+  if (source) {
+    return assign(target, source);
+  }
+
+  return target;
+}
+
+export function clone (target) {
+  return extend({}, clone);
+}
+
+export function requestIdleCallback () {
+
 }
 
 export function noop () {}
