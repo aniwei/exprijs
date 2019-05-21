@@ -5,7 +5,7 @@ export const EMPTY_ARRAY = [];
 export const workTags = {
   FunctionComponent: 0,
   ClassComponent: 1,
-  HostRoot: 3
+  HostRoot: 2
 }
 
 // export const FunctionComponent = 0;
