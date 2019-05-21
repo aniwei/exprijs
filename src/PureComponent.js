@@ -1,8 +1,12 @@
 import Component from './Component';
-import { } from 'shared';
+import { shallowEqual } from './shared';
 
-export default class PureComponent extends Component {
+class PureComponent extends Component {
+  isPureComponent = true;
+
   shouldComponentUpdate (nextProps, nextState) {
-    return 
+    return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
   }
 }
+
+export default PureComponent;

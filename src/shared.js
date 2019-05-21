@@ -30,10 +30,28 @@ export const workTags = {
 // export const EventComponent = 19;
 // export const EventTarget = 20;
 
-
 export const isArray = Array.isArray;
 export const assign = Object.assign;
 export const keys = Object.keys;
+export const is = Object.is || function (x, y) {
+  if (x === y) {
+    return x !== 0 || 1 / x === 1 / y;
+  }
+
+  return x !== x && y !== y;
+}
+
+export function isFunction (o) {
+  return typeof o === 'function';
+}
+
+export function isString (o) {
+  return typeof o === 'string';
+}
+
+export function isNumber (o) {
+  return typeof o === 'number';
+}
 
 export function isNullOrUndefined (o) {
   return o === undefined || o === null
@@ -93,6 +111,38 @@ export function flatten (array, result = []) {
   }
 
   return result;
+}
+
+export function shallowEqual (objectA, objectB) {
+  if (objectA === null || objectB === null) {
+    return false;
+  }
+
+  if (is(objectA, objectB)) {
+    return true;
+  }
+
+  const keysA = objectA ? keys(objectA) : [];
+  const keysB = objectB ? keys(objectB) : [];
+
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+
+  const length = objectA.length;
+
+  for (let i = 0; i < length; i++) {
+    const key = keysA[i];
+
+    if (
+      !objectA.hasOwnProperty(key) || 
+      !is(objectA[key], objectB[key])
+    ) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export function noop () {}

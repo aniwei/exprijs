@@ -69,3 +69,5 @@ const Children = {
     return EMPTY_ARRAY.concat(children);
   }
 }
+
+export default Children;
