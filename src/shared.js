@@ -1,13 +1,21 @@
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY = [];
-export const NO_EFFECT = null;
-export const NO_WORK = null;
+
+export const NO_EFFECT = 0;
+export const NO_WORK = 0;
+export const PLACEMENT = 2;
+export const UPDATE = 4;
+export const IN_COMPLETE = 1024;
 
 
 export const workTags = {
   FunctionComponent: 0,
   ClassComponent: 1,
-  HostRoot: 2
+  HostRoot: 2,
+
+  FUNCTION_COMPONENT: 0,
+  CLASS_COMPONENT: 1,
+  HOST_ROOT: 2
 }
 
 // export const FunctionComponent = 0;

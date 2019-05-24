@@ -19,7 +19,7 @@ export default class Component {
   }
 
   setState (state, callback = noop) {
-    
+    this.updater.enqueue(this, state, callback);
   }
 
   getState () {
