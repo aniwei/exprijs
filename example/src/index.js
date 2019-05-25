@@ -1,13 +1,17 @@
-import React, { Component } from '../../src/index';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 
-import { render } from '../../src/render';
+import { document } from 'react';
+
 
 class App extends Component {
     render () {
-        return <div></div>
+        return <div>Hello work</div>
     }
 }
 
-render(<div></div>, null, () => {
-    
-})
+render(
+    <App />, 
+    document.getElementById('id'), 
+    () => {}
+);

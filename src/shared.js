@@ -1,5 +1,8 @@
+const hasSymbol = typeof Symbol === 'function' && Symbol.for;
+
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY = [];
+export const EMPTY_CONTEXT = {};
 
 export const NO_EFFECT = 0;
 export const NO_WORK = 0;
@@ -9,36 +12,30 @@ export const IN_COMPLETE = 1024;
 
 
 export const workTags = {
-  FunctionComponent: 0,
-  ClassComponent: 1,
-  HostRoot: 2,
-
   FUNCTION_COMPONENT: 0,
   CLASS_COMPONENT: 1,
   HOST_ROOT: 2
 }
 
-// export const FunctionComponent = 0;
-// export const ClassComponent = 1;
-// export const IndeterminateComponent = 2; // Before we know whether it is function or class
-// export const HostRoot = 3; // Root of a host tree. Could be nested inside another node.
-// export const HostPortal = 4; // A subtree. Could be an entry point to a different renderer.
-// export const HostComponent = 5;
-// export const HostText = 6;
-// export const Fragment = 7;
-// export const Mode = 8;
-// export const ContextConsumer = 9;
-// export const ContextProvider = 10;
-// export const ForwardRef = 11;
-// export const Profiler = 12;
-// export const SuspenseComponent = 13;
-// export const MemoComponent = 14;
-// export const SimpleMemoComponent = 15;
-// export const LazyComponent = 16;
-// export const IncompleteClassComponent = 17;
-// export const DehydratedSuspenseComponent = 18;
-// export const EventComponent = 19;
-// export const EventTarget = 20;
+export const effectTags = {
+
+}
+
+export const elementTypes = {
+  REACT_ELEMENT_TYPE: hasSymbol ? Symbol.for('react.element') : 0xeac7,
+  REACT_PORTAL_TYPE: hasSymbol ? Symbol.for('react.portal') : 0xeaca,
+  REACT_FRAGMENT_TYPE: hasSymbol ? Symbol.for('react.fragment') : 0xeacb,
+  REACT_STRICT_MODE_TYPE: hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc,
+  REACT_PROFILER_TYPE: hasSymbol ? Symbol.for('react.profiler') : 0xead2,
+  REACT_PROVIDER_TYPE: hasSymbol ? Symbol.for('react.provider') : 0xeacd,
+  REACT_CONTEXT_TYPE: hasSymbol ? Symbol.for('react.context') : 0xeace,
+  REACT_ASYNC_MODE_TYPE: hasSymbol ? Symbol.for('react.async_mode') : 0xeacf,
+  REACT_CONCURRENT_MODE_TYPE:hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf,
+  REACT_FORWARD_REF_TYPE: hasSymbol ? Symbol.for('react.forward_ref'): 0xead0,
+  REACT_SUSPENSE_TYPE: hasSymbol ? Symbol.for('react.suspense') : 0xead1,
+  REACT_MEMO_TYPE: hasSymbol ? Symbol.for('react.memo') : 0xead3,
+  REACT_LAZY_TYPE: hasSymbol ? Symbol.for('react.lazy') : 0xead4
+}
 
 export const isArray = Array.isArray;
 export const assign = Object.assign;
@@ -65,6 +62,10 @@ export function isFunction (o) {
 
 export function isString (o) {
   return typeof o === 'string';
+}
+
+export function isObject (o) {
+  return typeof o === 'object' && !isNull(o);
 }
 
 export function isNumber (o) {
@@ -175,8 +176,13 @@ export function clone (target) {
   return extend({}, clone);
 }
 
-export function requestIdleCallback () {
 
+
+let internalTimeout = null;
+
+export function requestIdleCallback (callback = noop) {
+  debugger;
+  callback({})
 }
 
 export function noop () {}
