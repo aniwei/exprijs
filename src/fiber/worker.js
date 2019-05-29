@@ -1,14 +1,14 @@
-import { requestIdleCallback, ENOUGH_TIME } from './shared';
-import { workTag } from './shared';
-import { updateClassComponent, updateHostComponent } from '../lifecycle';
+import { requestIdleCallback, ENOUGH_TIME } from '../shared';
+import { workTags } from '../shared';
+import { updateClassComponent, updateHostComponent } from './lifecycle';
 import { isNull, NO_EFFECT } from '../shared';
 import { createRootFiber, createWorkInProgress } from '.';
 
-const { CLASS_COMPONENT } = workTag;
+const { CLASS_COMPONENT, HOST_COMPONENT } = workTags;
 
 class Worker {
   constructor () {
-    this.nextUnitOfWork = createWorkInProgress(this.rootFiber.current, null);
+    this.nextUnitOfWork = null;
     this.pendingCommit = null;
     this.queue = [];
   }
@@ -130,7 +130,7 @@ class Worker {
     }
   }
   
-  beginWork (workInProgress) {
+  beginWork (current, workInProgress) {
     switch (workInProgress.tag) {
       case CLASS_COMPONENT: {
         const Component = workInProgress.type;
@@ -208,17 +208,11 @@ class Worker {
   }
 }
 
-export function createWorker (type, container, callback) {
-  return new Worker(type, container, callback);
-}
+const worker = new Worker();
 
-export function scheduleWork (type, container, callback) {
-  const root = createRootFiber();
-  const nextUnitOfWork = createWorkInProgress(root.current, null);
-  const worker = createWorker();
+export function scheduleWork (current) {
+  debugger;
+  worker.nextUnitOfWork = createWorkInProgress(current, null);
 
-  worker.nextUnitOfWork = nextUnitOfWork;
-  worker.performWork();
-
-  return root;
+  requestIdleCallback(worker.performWork);
 }

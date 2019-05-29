@@ -1,12 +1,41 @@
 import { 
-  CLASS_COMPONENT,
-  HOST_COMPONENT,
-
   NO_EFFECT,
   isNull,
+  workTags
 } from '../shared';
+import { createWorker, scheduleWork } from './worker';
 
-export function createFiberNode (tag, pendingProps, key, mode) {
+const {
+  CLASS_COMPONENT,
+  HOST_COMPONENT,
+} = workTags;
+
+class ReactContainer {
+  constructor (root) {
+    this._internalRoot = root;
+  }
+
+  onCommit () {}
+  onComplete () {}
+
+  then () {}
+
+  commit () {}
+
+  render (children, callback) {
+    this.children = children;
+    const internalRoot = this._internalRoot;
+
+    scheduleUpdate(
+      internalRoot.current,
+      this.children, 
+      callback
+    );
+  }
+}
+
+
+function createFiberNode (tag, pendingProps, key) {
   return {
     tag,
     key,
@@ -26,7 +55,6 @@ export function createFiberNode (tag, pendingProps, key, mode) {
     queue: null,
     contextDependencies: null,
 
-    mode,
     effectTag: NO_EFFECT,
     nextEffect: null,
     firstEffect: null,
@@ -36,26 +64,25 @@ export function createFiberNode (tag, pendingProps, key, mode) {
   }
 }
 
-export function createFiber(...argv) {
+function createHostRootFiber () {
+  return createFiber(HOST_COMPONENT, null, null);
+}
+
+function createFiber(...argv) {
 	return new createFiberNode(...argv);
 }
 
-export function createHostRootFiber() {
-	return createFiber(HostRoot, null, null);
-}
-
 export function createWorkInProgress(current, pendingProps) {
-  const workInProgress = current.alternate;
+  let workInProgress = current.alternate;
   
   if (isNull(workInProgress)) {
     const { 
       tag, 
       pendingProps, 
       key, 
-      mode 
     } = current;
 
-    workInProgress = createFiber(tag, pendingProps, key, mode);
+    workInProgress = createFiber(tag, pendingProps, key);
 
     const { 
       elementType, 
@@ -104,8 +131,6 @@ export function createFiberFromTypeAndProps(
   key,
   pendingProps,
   owner,
-  mode,
-  expirationTime,
 ) {
   let fiber;
   let fiberTag =  IndeterminateComponent;
@@ -128,7 +153,7 @@ export function createFiberFromTypeAndProps(
     }
   }
 
-  fiber = createFiber(fiberTag, pendingProps, key, mode);
+  fiber = createFiber(fiberTag, pendingProps, key);
   fiber.elementType = type;
   fiber.type = resolvedType;
   fiber.expirationTime = expirationTime;
@@ -136,7 +161,9 @@ export function createFiberFromTypeAndProps(
   return fiber;
 }
 
-export function createFiberFromElement(element, mode, expirationTime) {
+
+
+export function createFiberFromElement(element) {
   const owner = null;
   const { type, key } = element;
   const pendingProps = element.props;
@@ -145,29 +172,33 @@ export function createFiberFromElement(element, mode, expirationTime) {
     type,
     key,
     pendingProps,
-    owner,
-    mode,
-    expirationTime,
-  )
+    owner
+  );
 
   return fiber;
 }
 
-export function createFiberFromText(content, mode, expirationTime) {
-  const fiber = createFiber(HostText, content, null, mode);
-  fiber.expirationTime = expirationTime;
-
+export function createFiberFromText(content) {
+  const fiber = createFiber(HostText, content, null);
+  
   return fiber;
 }
 
-export function createHostRootFiber () {
-  return createFiber(HOST_COMPONENT, null, null);
-}
-
-export function createRootFiber () {
+export function createRootFiber (container) {
   const uninitializedFiber = createHostRootFiber();
 
   return {
-    current: uninitializedFiber
+    current: uninitializedFiber,
+    container
   }
+}
+
+export function createContainer (container) {
+  return new ReactContainer(
+    createRootFiber(container)
+  );
+}
+
+export function scheduleUpdate (current, element) {
+  scheduleWork(current);
 }

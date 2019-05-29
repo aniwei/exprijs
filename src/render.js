@@ -1,8 +1,10 @@
-import { createWorker } from './fiber/worker';
+import { createContainer } from './fiber';
 
 
 export function render (type, container, callback) {
-  const worker = createWorker(type, container, callback);
-  
-  return worker;
+  const root = createContainer(container);
+
+  root.render(type);
+
+  return root;
 }

@@ -1,10 +1,12 @@
 const path = require('path');
 
 module.exports = {
-  mode: process.env.NODE_ENV,
+  mode: 'development',
+  devtool: 'source-map',
   devServer: {
     port: 10086,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    contentBase: path.resolve(__dirname, 'example'),
   },
   entry: {
     'bundle':  path.resolve(__dirname, './example/src/index.js')
@@ -12,10 +14,19 @@ module.exports = {
   
   output: {
     path: path.resolve(__dirname, 'example/dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '/dist/'
+  },
+
+  resolve: {
+    alias: {
+      'react': path.resolve(__dirname, 'src/index'),
+      'react-dom': path.resolve(__dirname, 'src/render')
+    },
   },
 
   module: {
+
     rules: [
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
     ]
