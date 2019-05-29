@@ -11,15 +11,6 @@ export const UPDATE = 4;
 export const IN_COMPLETE = 1024;
 
 
-export const workTags = {
-  FUNCTION_COMPONENT: 0,
-  CLASS_COMPONENT: 1,
-  HOST_ROOT: 2
-}
-
-export const effectTags = {
-
-}
 
 export const elementTypes = {
   REACT_ELEMENT_TYPE: hasSymbol ? Symbol.for('react.element') : 0xeac7,
