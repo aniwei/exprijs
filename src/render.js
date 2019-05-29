@@ -1,10 +1,15 @@
-import { createContainer } from './fiber';
+import { legacyRenderSubtreeIntoContainer } from './renderer';
 
 
-export function render (type, container, callback) {
-  const root = createContainer(container);
-
-  root.render(type);
-
-  return root;
+export function render (
+  element, 
+  container, 
+  callback
+) {
+  legacyRenderSubtreeIntoContainer(
+    null,
+    element,
+    container,
+    callback
+  );
 }
