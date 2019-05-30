@@ -7,7 +7,7 @@ export function createWorkInProgress (
   current, 
   pendingProps
 ) {
-  let workInProgress = current.alternate;
+  let { alternate: workInProgress } = current;
   
   if (isNull(workInProgress)) {
     const { 

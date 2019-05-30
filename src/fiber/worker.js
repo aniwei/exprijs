@@ -12,9 +12,7 @@ worker.beginWork = function () {}
 worker.performWork = function () {}
 worker.commitWork = function () {}
 
-
-export function scheduleWork () {
+export function performWork (fiber) {
   
 }
-
 export default worker;

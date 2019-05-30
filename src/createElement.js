@@ -1,14 +1,13 @@
+import { REACT_ELEMENT_TYPE } from './shared/elementTypes';
 import { 
   isNull, 
   isUndefined, 
   isFunction, 
   isString,
-  elementTypes
-} from './shared';
+} from './shared/is';
 
-const { 
-  REACT_ELEMENT_TYPE
-} = elementTypes;
+
+
 
 
 function ReactElement (

@@ -1,5 +1,6 @@
 import { enqueueUpdate, createUpdate } from "../updater";
 import { isFunction } from "../shared/is";
+import { performWork } from "./worker";
 
 export function schedulRootUpdate (
   current, 
@@ -18,7 +19,6 @@ export function schedulRootUpdate (
     update
   );
 
-
   schedulWork(current)
 }
 
@@ -26,6 +26,6 @@ export function schedulRootWork () {
 
 }
 
-export function schedulWork () {
-
+export function schedulWork (fiber) {
+  performWork(fiber);
 }

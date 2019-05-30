@@ -6,7 +6,7 @@ export function render (
   container, 
   callback
 ) {
-  legacyRenderSubtreeIntoContainer(
+  return legacyRenderSubtreeIntoContainer(
     null,
     element,
     container,

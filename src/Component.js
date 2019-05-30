@@ -1,6 +1,9 @@
-import { 
+
+import {
   isFunction, 
   isArray,
+} from './shared/is';
+import {   
   extend, 
   clone, 
   noop,
@@ -10,7 +13,7 @@ import {
 export default class Component {
   constructor (props, context, updater) {
     if (!this.state) {
-      this.state = {}
+      this.state = {};
     }
     this.props = props || {};
     this.context = context || EMPTY_OBJECT;
@@ -23,7 +26,6 @@ export default class Component {
   }
 
   getState () {
-    // tslint:disable-next-line:no-this-assignment
     const { _pendingStates, state, props } = this
     if (!_pendingStates.length) {
       return state

@@ -1,9 +1,11 @@
 import { 
   isArray,
   isNullOrUndefined,
+} from './shared/is';
+import {
   flatten,
   EMPTY_ARRAY
-} from './shared'
+} from './shared';
   
   
 const Children = {
