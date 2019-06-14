@@ -33,27 +33,25 @@ export default class ClassComponent {
   }
 
   adopt () {}
-  mount () {}
+  mount () {
+    const { workInProgress, instance } = this;
+    
+    instance.props = this.nextProps;
+    instance.state = workInProgress.memoizedState;
+
+    const updateQueue = workInProgress.updateQueue;
+    
+    if (!sNull(updateQueue)) {
+      processUpdateQueue(workInProgress, updateQueue);
+      instance.state = workInProgress.memoizedState;
+    }
+  }
+
   update () {}
+
+  finish () {}
 }
 
-export default function updateClassComponent (
-  current,
-  workInProgress,
-  nextProps,
-) {
-  if (isNull(current)) {
-    constructClassInstance(
-      workInProgress,
-      nextProps
-    );
-    mountClassInstance(
-      workInProgress,
-      Component,
-      nextProps
-    );
-  }
-}
 
 function mountClassInstance (
   workInProgress,

@@ -1,7 +1,9 @@
-import { enqueueUpdate, createUpdate } from './index';
+import { enqueueUpdate, createUpdate } from '../updater/index';
 import { isFunction } from '../shared/is';
 import { getFiber } from '../fiber';
 import { REPLACE_STATE, FORCE_UPDATE } from '../shared/updateTypes';
+
+const isMounted = true;
 
 export default {
   isMounted,

@@ -1,6 +1,5 @@
-import { createHostRootFiber } from '../fiber/FiberNode';
+import { createHostRootFiber } from './fiber';
 import { schedulRootUpdate } from '../fiber/scheduler';
-
 
 function updateContainer (
   element, 
@@ -35,7 +34,6 @@ export default class ReactRoot {
   }
 
   render (element, parentComponent, callback) {
-
     updateContainer(element, this._internalRoot, parentComponent, callback);
   }
 }
