@@ -1,8 +1,22 @@
-import { isNull, isNullOrUndefined } from '../shared/is';
-import classComponentUpdater from '../updater/classComponentUpdater';
+export default function updateClassComponent (
+  current,
+  workInProgress,
+  Component,
+  nextProps
+) {
+  const classComponent = new ClassComponent(
+    current,
+    workInProgress,
+    Component,
+    nextProps
+  );
 
+  return classComponent.workInProgress.child;
+}
 
 export default class ClassComponent {
+  isClassComponent = true;
+
   constructor (
     current,
     workInProgress,
@@ -12,9 +26,13 @@ export default class ClassComponent {
     this.workInProgress = workInProgress;
     this.nextProps = nextProps;
     this.instance = null;
-    
-    isNull(this.current) ?
-      this.construct().mount() : this.update(); 
+
+    if (isNull(this.current)) {
+      this.construct()
+          .mount();
+    } else {
+      this.update();
+    }    
   }
 
   construct () {
@@ -51,6 +69,10 @@ export default class ClassComponent {
 
   finish () {}
 }
+
+
+
+
 
 
 function mountClassInstance (

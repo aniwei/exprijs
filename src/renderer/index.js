@@ -1,34 +1,17 @@
 import ReactRoot from './ReactRoot';
-import { unbatchedUpdates } from '../reconciler';
+import { unbatchedUpdates } from '../scheduler/reconciler';
 
-export function legacyRenderSubtreeIntoContainer (
+export function legacyRenderIntoContainer (
   parentComponent, 
   element, 
   container, 
   callback
 ) {
-  const root = getReactRootContainer(container);
+  const root = container._reactRootContainer || legacyCreateFromContainer();
 
-  root.render(element, callback);
+  
 
   return getPublicRootInstance(root._internalRoot);
-}
-
-function getReactRootContainer (container, callback) {
-  const { _reactRootContainer: root } = container;
-
-  if (root) {
-    return root;
-  } else {
-    const root = legacyCreateFromContainer(container);
-    unbatchedUpdates(() => {
-
-    });
-
-    return root;
-  }
-
-  return legacyCreateFromContainer(container);
 }
 
 function getPublicRootInstance (container) {
@@ -50,6 +33,7 @@ function getPublicRootInstance (container) {
 function legacyCreateFromContainer (container) {
   let sibling;
   
+  // clear children
   while (sibling = container.child) {
     container.removeChild(sibling);
   }

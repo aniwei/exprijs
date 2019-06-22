@@ -12,10 +12,6 @@ function updateContainer (
   return schedulRootUpdate(current, element, parentComponent, callback);
 }
 
-function createContainer (container) {
-  return createFiberRoot(container);
-}
-
 function createFiberRoot (container) {
   const uninitializedFiber = createHostRootFiber();
   const root = {
@@ -30,10 +26,15 @@ function createFiberRoot (container) {
 
 export default class ReactRoot {
   constructor (container) {
-    this._internalRoot = createContainer(container);
+    this._internalRoot = createFiberRoot(container);
   }
 
   render (element, parentComponent, callback) {
-    updateContainer(element, this._internalRoot, parentComponent, callback);
+    updateContainer(
+      element, 
+      this._internalRoot, 
+      parentComponent, 
+      callback
+    );
   }
 }
