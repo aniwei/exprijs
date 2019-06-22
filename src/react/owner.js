@@ -1,3 +1,4 @@
 export default {
-  currentDispatcher: null
+  currentDispatcher: null,
+  current: null
 }
