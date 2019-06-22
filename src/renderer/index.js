@@ -1,3 +1,4 @@
+import ReactRoot from './ReactRoot';
 import { unbatchedUpdates } from '../reconciler';
 
 export function legacyRenderSubtreeIntoContainer (
@@ -6,16 +7,28 @@ export function legacyRenderSubtreeIntoContainer (
   container, 
   callback
 ) {
-  const root = container._reactRootContainer ? 
-    root.render(element, callback) :
-    unbatchedUpdates(() => {
-      const root = container._reactRootContainer = legacyCreateFromContainer(container);
-      root.render();  
+  const root = getReactRootContainer(container);
 
-      return root;
+  root.render(element, callback);
+
+  return getPublicRootInstance(root._internalRoot);
+}
+
+function getReactRootContainer (container, callback) {
+  const { _reactRootContainer: root } = container;
+
+  if (root) {
+    return root;
+  } else {
+    const root = legacyCreateFromContainer(container);
+    unbatchedUpdates(() => {
+
     });
 
-  return getPublicRootInstance(root._reactRootContainer);
+    return root;
+  }
+
+  return legacyCreateFromContainer(container);
 }
 
 function getPublicRootInstance (container) {

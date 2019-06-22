@@ -1,4 +1,3 @@
-import { REACT_ELEMENT_TYPE } from './shared/elementTypes';
 import { 
   isNull, 
   isUndefined, 
@@ -6,9 +5,7 @@ import {
   isString,
 } from './shared/is';
 
-
-
-
+import { REACT_ELEMENT_TYPE } from './shared/elementTypes';
 
 function ReactElement (
   type, 

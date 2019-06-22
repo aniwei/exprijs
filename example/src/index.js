@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-
-import { document } from 'react';
+import { document } from 'document';
 
 
 class App extends Component {

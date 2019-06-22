@@ -1,5 +1,5 @@
 import { createHostRootFiber } from './fiber';
-import { schedulRootUpdate } from '../fiber/scheduler';
+import { schedulRootUpdate } from '../scheduler';
 
 function updateContainer (
   element, 

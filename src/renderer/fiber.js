@@ -65,7 +65,7 @@ export function createWorkInProgress (
   return workInProgress;
 }
 
-function createHostRootFiber () {
+export function createHostRootFiber () {
   return createFiber(HOST_ROOT, null, null);
 }
 

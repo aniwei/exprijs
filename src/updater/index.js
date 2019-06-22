@@ -3,7 +3,7 @@ import { isNull, isFunction } from "../shared/is";
 import { getFiber } from "../fiber";;
 
 export const classComponentUpdater = {
-  isMounted,
+  isMounted: true,
   
   enqueueSetState (
     instance, 
