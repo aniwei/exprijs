@@ -1,17 +1,6 @@
-import Component from './Component';
-import PureComponent from './PureComponent';
-import createElement from './createElement';
+import React from 'react';
 
-export * from './document';
+export * from 'react';
+export * from 'react-dom';
 
-export {
-  Component,
-  PureComponent,
-  createElement
-}
-
-export default {
-  Component,
-  PureComponent,
-  createElement
-}
+export default React;
