@@ -9,19 +9,20 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'example'),
   },
   entry: {
-    'bundle':  path.resolve(__dirname, './example/src/index.js')
+    'bundle':  path.resolve(__dirname, './example-mini-program/src/index.js')
   },
   
   output: {
-    path: path.resolve(__dirname, 'example/dist'),
+    path: path.resolve(__dirname, 'example-mini-program/dist'),
     filename: '[name].js',
     publicPath: '/dist/'
   },
 
   resolve: {
     alias: {
-      'react': path.resolve(__dirname, 'src/index'),
-      'react-dom': path.resolve(__dirname, 'src/render')
+      '@exprijs': path.resolve(__dirname, 'src'),
+      '@exprijs/renderer': path.resolve(__dirname, 'src'),
+      '@exprijs/document': path.resolve(__dirname, 'src'),
     },
   },
 
