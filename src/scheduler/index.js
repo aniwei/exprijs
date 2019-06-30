@@ -1,4 +1,7 @@
-import { enqueueUpdate, createUpdate } from "../updater";
+
+import enqueueUpdate from './updater/enqueueUpdate';
+import createUpdate from './updater/createUpdate';
+import schedulWork from './reconciler/scheduleWork';
 import { isFunction } from "../shared/is";
 import { HOST_ROOT, CLASS_COMPONENT, FUNCTION_COMPONENT } from '../shared/workTags';
 
@@ -19,5 +22,5 @@ export function schedulRootUpdate (
     update
   );
 
-  schedulWork(current);
+  schedulWork(current, false);
 }

@@ -1,5 +1,6 @@
 import { isNull } from '../../shared/is';
 import createUpdateQueue from './createUpdateQueue';
+import appendUpdateToQueue from './appendUpdateToQueue';
 
 export default function enqueueUpdate (
   fiber, 

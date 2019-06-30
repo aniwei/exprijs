@@ -6,6 +6,7 @@ import {
 } from './performWork';
 
 export default function requestWork (root) {
+  debugger;
   if (!worker.isRendering) {
     if (reconciler.isBatchingUpdates) {
       if (reconciler.isUnBatchingUpdates) {

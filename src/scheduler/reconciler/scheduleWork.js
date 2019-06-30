@@ -1,13 +1,12 @@
 import worker from '../worker';
 import requestWork from '../worker/requestWork';
 
-export default function scheduleWork (fiber) {
-  const root;
+export default function scheduleWork (fiber, isAsync) {
 
   if (
     !worker.isWorking ||
-    worker.isCommintting
+    worker.isCommitting
   ) {
-    requestWork(root);
+    requestWork(fiber, isAsync);
   }
 }

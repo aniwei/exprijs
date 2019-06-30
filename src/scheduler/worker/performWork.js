@@ -1,4 +1,4 @@
-import { isNull } from '../shared/is';
+import { isNull } from '../../shared/is';
 import worker from './index';
 import ReactCurrentOwner from '../../react/owner';
 import { createWorkInProgress } from '../../renderer/fiber';

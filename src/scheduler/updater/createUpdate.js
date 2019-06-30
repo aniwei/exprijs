@@ -1,6 +1,6 @@
 import { 
   UPDATE_STATE
-} from '../../shared/updateTypes';
+} from '../../shared/updateTags';
 
 export default function createUpdate () {
   return {

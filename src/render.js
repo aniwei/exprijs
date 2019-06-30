@@ -1,4 +1,4 @@
-import { legacyRenderSubtreeIntoContainer } from './renderer';
+import { legacyRenderIntoContainer }  from './renderer';
 
 
 export function render (
@@ -6,7 +6,7 @@ export function render (
   container, 
   callback
 ) {
-  return legacyRenderSubtreeIntoContainer(
+  return legacyRenderIntoContainer(
     null,
     element,
     container,

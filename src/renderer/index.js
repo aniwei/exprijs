@@ -1,5 +1,5 @@
 import ReactRoot from './ReactRoot';
-import { unbatchedUpdates } from '../scheduler/reconciler';
+import unbatchedUpdate from '../scheduler/reconciler/unbatchedUpdate';
 
 export function legacyRenderIntoContainer (
   parentComponent, 
@@ -7,9 +7,12 @@ export function legacyRenderIntoContainer (
   container, 
   callback
 ) {
-  const root = container._reactRootContainer || legacyCreateFromContainer();
+  const root = container._reactRootContainer || legacyCreateFromContainer(container);
 
-  
+  unbatchedUpdate(() => {
+    debugger;
+    root.render(element, callback);
+  })
 
   return getPublicRootInstance(root._internalRoot);
 }
