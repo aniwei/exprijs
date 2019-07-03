@@ -10,7 +10,6 @@ export function legacyRenderIntoContainer (
   const root = container._reactRootContainer || legacyCreateFromContainer(container);
 
   unbatchedUpdate(() => {
-    debugger;
     root.render(element, callback);
   })
 

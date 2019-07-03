@@ -1,9 +1,29 @@
 
 import enqueueUpdate from './updater/enqueueUpdate';
 import createUpdate from './updater/createUpdate';
-import schedulWork from './reconciler/scheduleWork';
+import schedulWork from './scheduleWork';
 import { isFunction } from "../shared/is";
-import { HOST_ROOT, CLASS_COMPONENT, FUNCTION_COMPONENT } from '../shared/workTags';
+
+export function schedulUpdate (
+  instance,
+  payload,
+  callback
+) {
+  const { __reactInternalFiber: current } = instance;
+  const update = createUpdate();
+  update.payload = payload;
+
+  if (isFunction(callback)) {
+    update.callback = callback;
+  }
+
+  enqueueUpdate(
+    current,
+    update
+  );
+
+  schedulWork(current, false);
+}
 
 export function schedulRootUpdate (
   current, 

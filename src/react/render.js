@@ -1,4 +1,4 @@
-import { legacyRenderIntoContainer }  from './renderer';
+import { legacyRenderIntoContainer }  from '../renderer';
 
 
 export function render (

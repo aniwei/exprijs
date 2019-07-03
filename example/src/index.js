@@ -4,13 +4,13 @@ import { document } from 'document';
 
 
 class App extends Component {
-    render () {
-        return <div>Hello work</div>
-    }
+  render () {
+    return <div>Hello work</div>
+  }
 }
 
 render(
-    <App />, 
-    document.getElementById('id'), 
-    () => {}
+  <App />, 
+  document.getElementById('id'), 
+  () => {}
 );

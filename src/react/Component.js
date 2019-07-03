@@ -2,13 +2,13 @@
 import {
   isFunction, 
   isArray,
-} from './shared/is';
+} from '../shared/is';
 import {   
   extend, 
   clone, 
   noop,
   EMPTY_OBJECT 
-} from './shared';
+} from '../shared';
 
 export default class Component {
   constructor (props, context, updater) {

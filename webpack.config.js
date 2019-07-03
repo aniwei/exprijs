@@ -21,7 +21,7 @@ module.exports = {
   resolve: {
     alias: {
       'react': path.resolve(__dirname, 'src/index'),
-      'react-dom': path.resolve(__dirname, 'src/render'),
+      'react-dom': path.resolve(__dirname, 'src/react/render'),
       'document': path.resolve(__dirname, 'src/document'),
     },
   },

@@ -3,9 +3,9 @@ import {
   isUndefined, 
   isFunction, 
   isString,
-} from './shared/is';
+} from '../shared/is';
 
-import { REACT_ELEMENT_TYPE } from './shared/elementTypes';
+import { REACT_ELEMENT_TYPE } from '../shared/elementTypes';
 
 function ReactElement (
   type, 

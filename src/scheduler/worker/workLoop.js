@@ -1,22 +1,24 @@
-import performUnitOfWork from './performUnitOfWork';
 import worker from './index';
-import { isNull } from '../../shared/is';
 
-function shouldYield () {
+export default function workLoop () {
+  const deadline = worker.deadline;
+  
+  if (!worker.nextUnitOfWork) {
 
-}
+  } 
 
-export default function workLoop(isYieldy) {
-  if (!isYieldy) {
-    while (!isNull(worker.nextUnitOfWork)) {
-      worker.nextUnitOfWork = performUnitOfWork(worker.nextUnitOfWork);
-    }
-  } else {
-    while (
-      !isNull(worker.nextUnitOfWork) &&
-      !shouldYield()
-    ) {
-      worker.nextUnitOfWork = performUnitOfWork(worker.nextUnitOfWork);
-    }
+  while (
+    worker.nextUnitOfWork &&
+    (
+      deadline ? 
+        deadline.timeRemaining() > 1 :
+        true
+    )
+  ) {
+    worker.nextUnitOfWork = performUnitOfWork();
+  }
+
+  if (worker.pendingCommit) {
+    
   }
 }

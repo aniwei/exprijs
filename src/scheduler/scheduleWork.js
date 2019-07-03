@@ -1,15 +1,20 @@
-import requestWork from './requestWork';
-import worker from './worker';
+import {
+  ASYNC,
+  SYNC
+} from '../shared/modeTypes';
+import {
+  performSyncWork,
+  performAsyncWork
+} from './worker/performWork'
 
-export default function scheduleWork (fiber) {
-  const root = filber.root;
+export default function schedulWork (
+  current,
+  mode
+) {
 
-  // if isWorking resetWork;
-
-  if (
-    !worker.isWorking &&
-    !worker.isCommintting
-  ) {
-    requestWork(root, rootExpirationTime);
+  if (mode === ASYNC) {
+    performAsyncWork();
+  } else {
+    performSyncWork();
   }
 }

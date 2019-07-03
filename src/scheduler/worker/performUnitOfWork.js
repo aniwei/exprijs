@@ -1,17 +1,19 @@
-import { isNull } from '../../shared/is';
-import beginWork from './beginWork';
-import completeUnitOfWork from './completeUnitOfWork';
+import { beginWork } from "./beginWork";
+import { completeWork } from "./completeWork";
 
-export default function performUnitOfWork (workInProgress) {
-  const { alternate: current } = workInProgress;
-  let next = beginWork(
-    current, 
-    workInProgress
-  );
+export const performUnitOfWork = workInProgress => {
+  beginWork(workInProgress);
 
-  if (isNull(next)) {
-    next = completeUnitOfWork(workInProgress);
+  if (wipFiber.child) {
+    return wipFiber.child;
   }
 
-  return next;
-}
+  let sibling = wipFiber;
+  while (sibling) {
+    completeWork(sibling);
+    if (sibling.sibling) {
+      return sibling.sibling;
+    }
+    sibling = sibling.parent;
+  }
+};

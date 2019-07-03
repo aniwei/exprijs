@@ -1,5 +1,5 @@
 import Component from './Component';
-import { shallowEqual } from './shared';
+import { shallowEqual } from '../shared';
 
 class PureComponent extends Component {
   isPureComponent = true;
