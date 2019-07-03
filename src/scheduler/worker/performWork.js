@@ -1,16 +1,13 @@
+import worker from './index';
 import workLoop from './workLoop';
+import requestIdleCallback from 'requestidlecallback';
 
-export function performWork () {
+export function performWork (deadline) {
+  workLoop(deadline);
 
-}
+  const { nextUnitOfWork } = worker;
 
-export function performAsyncWork () {
-
-}
-
-
-export function performSyncWork () {
-  workLoop();
-
-  
+  if (nextUnitOfWork) {
+    requestIdleCallback(performWork);
+  }
 }
