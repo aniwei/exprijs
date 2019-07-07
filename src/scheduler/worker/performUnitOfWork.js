@@ -1,11 +1,11 @@
-import { beginWork } from "./beginWork";
-import { completeWork } from "./completeWork";
+import beginWork from './beginWork';
+import completeWork from './completeWork';
 
-export const performUnitOfWork = workInProgress => {
+export default function performUnitOfWork (workInProgress) {
   beginWork(workInProgress);
 
-  if (wipFiber.child) {
-    return wipFiber.child;
+  if (workInProgress.child) {
+    return workInProgress.child;
   }
 
   let sibling = wipFiber;
