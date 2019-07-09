@@ -1,26 +1,19 @@
-import worker from './index';
+import { pendingCommit, nextUnitOfWork, ENOUGH_TIME } from '../../shared';
+import * as shared from '../../shared';
 
+import resetNextUnitOfWork from './resetNextUnitOfWork';
+import performUnitOfWork from './performUnitOfWork';
+import commitAllWork from './commitAllWork';
 
-export default function workLoop () {
-  const { deadline, nextUnitOfWork } = worker;
-  
-  if (!nextUnitOfWork) {
-
-  } 
-
-
-
-  while (worker.nextUnitOfWork &&
-    (
-      deadline ? 
-        deadline.timeRemaining() > 1 :
-        true
-    )
-  ) {
-    worker.nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
+export const workLoop = deadline => {
+  if (!shared.nextUnitOfWork) {
+    resetNextUnitOfWork();
   }
 
-  if (worker.pendingCommit) {
-    
+  while (shared.nextUnitOfWork && deadline.timeRemaining() > ENOUGH_TIME) {
+    shared.nextUnitOfWork = performUnitOfWork(shared.nextUnitOfWork);
   }
-}
+  if (shared.pendingCommit) {
+    commitAllWork(shared.pendingCommit);
+  }
+};

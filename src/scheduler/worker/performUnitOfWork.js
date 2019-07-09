@@ -1,15 +1,17 @@
 import beginWork from './beginWork';
 import completeWork from './completeWork';
 
-export default function performUnitOfWork (workInProgress) {
-  beginWork(workInProgress);
+export default function performUnitOfWork (wipFiber) {
+  beginWork(wipFiber);
 
-  if (workInProgress.child) {
-    return workInProgress.child;
+  if (wipFiber.child) {
+    return wipFiber.child;
   }
 
   let sibling = wipFiber;
+  
   while (sibling) {
+
     completeWork(sibling);
     if (sibling.sibling) {
       return sibling.sibling;

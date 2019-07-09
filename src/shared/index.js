@@ -1,52 +1,14 @@
-export const EMPTY_OBJECT = {};
-export const EMPTY_ARRAY = [];
-export const EMPTY_CONTEXT = {};
+export const HOST_COMPONENT = 'host';
+export const CLASS_COMPONENT = 'class';
+export const HOST_ROOT = 'root';
 
-export function noop () {}
-export const assign = Object.assign;
-export const keys = Object.keys;
+export const PLACEMENT = 1;
+export const DELETION = 2;
+export const UPDATE = 3;
 
-export function shallowEqual (objectA, objectB) {
-  if (objectA === null || objectB === null) {
-    return false;
-  }
+export const ENOUGH_TIME = 1;
+export const TEXT = 'TEXT';
 
-  if (is(objectA, objectB)) {
-    return true;
-  }
-
-  const keysA = objectA ? keys(objectA) : [];
-  const keysB = objectB ? keys(objectB) : [];
-
-  if (keysA.length !== keysB.length) {
-    return false;
-  }
-
-  const length = objectA.length;
-
-  for (let i = 0; i < length; i++) {
-    const key = keysA[i];
-
-    if (
-      !objectA.hasOwnProperty(key) || 
-      !is(objectA[key], objectB[key])
-    ) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-export function extend (target, source) {
-  if (source) {
-    return assign(target, source);
-  }
-
-  return target;
-}
-
-export function clone (target) {
-  return extend({}, clone);
-}
-
+export const updateQueue = [];
+export let nextUnitOfWork = null;
+export let pendingCommit = null;

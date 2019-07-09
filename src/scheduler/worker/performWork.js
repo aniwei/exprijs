@@ -1,13 +1,9 @@
-import worker from './index';
+import * as shared from '../../shared';
 import workLoop from './workLoop';
-import { request } from 'requestidlecallback';
 
 export default function performWork (deadline) {
   workLoop(deadline);
-
-  const { nextUnitOfWork } = worker;
-
-  if (nextUnitOfWork) {
-    request(performWork);
+  if (shared.nextUnitOfWork || shared.updateQueue.length > 0) {
+    requestIdleCallback(performWork);
   }
-}
+};

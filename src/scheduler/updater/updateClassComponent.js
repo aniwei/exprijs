@@ -1,4 +1,8 @@
-export default function updateClassComponent (workInProgress) {
+import { createInstance } from '../../react/component';
+import { reconcileChildrenArray } from '../reconciler/reconcileChildrenArray';
+import { cloneChildFibers } from '../reconciler/cloneChildFibers';
+
+export default function updateClassComponent (wipFiber) {
   let instance = wipFiber.stateNode;
   if (instance == null) {
     instance = wipFiber.stateNode = createInstance(wipFiber);
