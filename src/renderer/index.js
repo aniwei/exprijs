@@ -1,5 +1,5 @@
 import ReactRoot from './ReactRoot';
-import unbatchedUpdate from '../scheduler/reconciler/unbatchedUpdate';
+import unbatchedUpdate from '../scheduler/unbatchedUpdate';
 
 export function legacyRenderIntoContainer (
   parentComponent, 

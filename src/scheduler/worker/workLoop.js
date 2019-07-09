@@ -1,13 +1,10 @@
 import worker from './index';
 
-function timeRemaining () {
-
-}
 
 export default function workLoop () {
-  const deadline = worker.deadline;
+  const { deadline, nextUnitOfWork } = worker;
   
-  if (!worker.nextUnitOfWork) {
+  if (!nextUnitOfWork) {
 
   } 
 

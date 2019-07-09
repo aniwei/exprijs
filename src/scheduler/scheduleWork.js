@@ -1,20 +1,8 @@
-import {
-  ASYNC,
-  SYNC
-} from '../shared/modeTypes';
-import {
-  performSyncWork,
-  performAsyncWork
-} from './worker/performWork'
+import requestWork from './worker/requestWork'
 
 export default function schedulWork (
   current,
   mode
 ) {
-
-  if (mode === ASYNC) {
-    performAsyncWork();
-  } else {
-    performSyncWork();
-  }
+  requestWork(current, mode);
 }
