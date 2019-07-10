@@ -1,4 +1,4 @@
-import { CLASS_COMPONENT } from '../../shared';
+import { CLASS_COMPONENT } from '../../shared/workTags';
 
 export const commitDeletion = (fiber, domParent) => {
   let node = fiber;

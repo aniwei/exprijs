@@ -5,7 +5,7 @@ import { document } from 'document';
 
 class App extends Component {
   render () {
-    return <div>Hello work</div>
+    return <div></div>
   }
 }
 

@@ -1,7 +1,7 @@
 import { pendingCommit, CLASS_COMPONENT } from '../../shared';
-import * as lets from '../../shared';
+import worker from './index';
 
-export const completeWork = fiber => {
+export default function completeWork (fiber) {
   if (fiber.tag == CLASS_COMPONENT) {
     fiber.stateNode.__fiber = fiber;
   }
@@ -12,6 +12,6 @@ export const completeWork = fiber => {
     const parentEffects = fiber.parent.effects || [];
     fiber.parent.effects = parentEffects.concat(childEffects, thisEffect);
   } else {
-    lets.pendingCommit = fiber;
+    worker.pendingCommit = fiber;
   }
 };

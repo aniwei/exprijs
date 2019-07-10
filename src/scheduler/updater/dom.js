@@ -5,6 +5,7 @@ const isNew = (prev, next) => key => prev[key] !== next[key];
 const isGone = (prev, next) => key => !(key in next);
 
 export const createDomElement = fiber => {
+  
   const isTextElement = fiber.type === 'textNode';
   const dom = isTextElement
     ? document.createTextNode('')

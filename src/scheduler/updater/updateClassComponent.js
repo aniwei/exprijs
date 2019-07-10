@@ -1,20 +1,48 @@
-import { createInstance } from '../../react/component';
-import { reconcileChildrenArray } from '../reconciler/reconcileChildrenArray';
+import reconcileChildrenArray from '../reconciler/reconcileChildrenArray';
 import { cloneChildFibers } from '../reconciler/cloneChildFibers';
+import { isNull, isNullOrUndefined } from '../../shared/is';
+import processUpdateQueue from './processUpdateQueue';
 
-export default function updateClassComponent (wipFiber) {
-  let instance = wipFiber.stateNode;
-  if (instance == null) {
-    instance = wipFiber.stateNode = createInstance(wipFiber);
-  } else if (wipFiber.props == instance.props && !wipFiber.partialState) {
-    cloneChildFibers(wipFiber);
+export default function updateClassComponent (workInProgress) {
+  let instance = workInProgress.stateNode;
+  if (isNull(instance)) {
+    instance = workInProgress.stateNode = constructClassInstance(workInProgress);
+  } else if (workInProgress.props == instance.props && !workInProgress.partialState) {
+    cloneChildFibers(workInProgress);
     return;
   }
 
-  instance.props = wipFiber.props;
-  instance.state = Object.assign({}, instance.state, wipFiber.partialState);
-  wipFiber.partialState = null;
+  instance.props = workInProgress.props;
+  instance.state = Object.assign({}, instance.state, workInProgress.partialState);
+  workInProgress.partialState = null;
 
-  const newChildElements = wipFiber.stateNode.render();
-  reconcileChildrenArray(wipFiber, newChildElements);
+  const newChildElements = instance.render();
+
+  reconcileChildrenArray(workInProgress, newChildElements);
 };
+
+function constructClassInstance (workInProgress, props) {
+  const { elementType: Component } = workInProgress;
+  const instance = new Component(props);
+
+  workInProgress.memoizedState = isNullOrUndefined(instance.state) ? 
+    instance.state : null;
+
+  workInProgress.stateNode = instance;
+
+  return instance;
+}
+
+function mountClassComponent (workInProgress, props) {
+  const { instance } = workInProgress;
+    
+  instance.props = props;
+  instance.state = workInProgress.memoizedState;
+
+  const updateQueue = workInProgress.updateQueue;
+  
+  if (!sNull(updateQueue)) {
+    processUpdateQueue(workInProgress, updateQueue);
+    instance.state = workInProgress.memoizedState;
+  }
+}

@@ -1,5 +1,5 @@
-import { HOST_ROOT, updateQueue, nextUnitOfWork } from '../../shared';
-import * as shared from '../../shared';
+import { HOST_ROOT, updateQueue } from '../../shared';
+import worker from './index';
 
 export default function resetNextUnitOfWork () {
   const update = updateQueue.shift();
@@ -16,7 +16,8 @@ export default function resetNextUnitOfWork () {
       ? update.dom._rootContainerFiber
       : getRoot(update.instance.__fiber);
 
-  shared.nextUnitOfWork = {
+
+  worker.nextUnitOfWork = {
     tag: HOST_ROOT,
     stateNode: update.dom || root.stateNode,
     props: update.newProps || root.props,

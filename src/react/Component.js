@@ -1,17 +1,18 @@
 import scheduleUpdate from '../scheduler/scheduleUpdate';
 
-export class Component {
+export default class Component {
   constructor(props) {
-    this.props = props || {};
+    this.props = props;
+    this.context = context;
     this.state = this.state || {};
   }
-  setState(partialState) {
-    scheduleUpdate(this, partialState);
+
+  setState (partialState, callback) {
+    scheduleUpdate(this, partialState, callback);
+  }
+
+  forceUpdate (callback) {
+
   }
 }
 
-export const createInstance = fiber => {
-  const instance = new fiber.type(fiber.props);
-  instance.__fiber = fiber;
-  return instance;
-};

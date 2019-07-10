@@ -10,12 +10,13 @@ const arrify = val => {
   return val === null ? [] : Array.isArray(val) ? val : [val];
 };
 
-export const reconcileChildrenArray = (wipFiber, newChildElements) => {
+export default function reconcileChildrenArray (wipFiber, newChildElements) {
   const elements = arrify(newChildElements);
 
   let index = 0;
   let oldFiber = wipFiber.alternate ? wipFiber.alternate.child : null;
   let newFiber = null;
+
   while (index < elements.length || oldFiber != null) {
     const prevFiber = newFiber;
     const element = index < elements.length && elements[index];
