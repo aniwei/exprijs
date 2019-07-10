@@ -1,16 +1,20 @@
 import {
-  CLASS_COMPONENT,
-  HOST_COMPONENT,
   DELETION,
   UPDATE,
   PLACEMENT
-} from '../../shared';
+} from '../../shared/effectTags';
+
+import {
+  CLASS_COMPONENT,
+  HOST_ROOT,
+  HOST_COMPONENT
+} from '../../shared/workTags';
 
 const arrify = val => {
   return val === null ? [] : Array.isArray(val) ? val : [val];
 };
 
-export default function reconcileChildrenArray (wipFiber, newChildElements) {
+export default function reconcileChildrenArray (workInProgress, newChildElements) {
   const elements = arrify(newChildElements);
 
   let index = 0;
