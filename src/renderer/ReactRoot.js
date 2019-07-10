@@ -9,8 +9,6 @@ function updateContainer (
 ) {
   const { current } = root;
 
-  debugger;
-
   return scheduleRootUpdate(current, element, callback);
 }
 

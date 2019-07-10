@@ -2,6 +2,15 @@ import { isNull } from '../shared/is';
 import { NO_EFFECT } from '../shared/effectTags';
 import { HOST_ROOT } from '../shared/workTags';
 
+import schedulerCurrent from './current'; 
+
+export function addRootToSchedule (current) {
+  schedulerCurrent.current = current;
+}
+
+export function getRootFromSchedule () {
+  return schedulerCurrent.current;
+}
 
 export function createWorkInProgress (
   current, 

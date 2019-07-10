@@ -1,4 +1,4 @@
-import { pendingCommit, nextUnitOfWork, ENOUGH_TIME } from '../../shared';
+import { ENOUGH_TIME } from '../../shared';
 import worker from './index';
 
 import resetNextUnitOfWork from './resetNextUnitOfWork';
@@ -11,6 +11,7 @@ export default function workLoop (deadline) {
   }
 
   while (worker.nextUnitOfWork && deadline.timeRemaining() > ENOUGH_TIME) {
+    debugger;
     worker.nextUnitOfWork = performUnitOfWork(worker.nextUnitOfWork);
   }
   if (worker.pendingCommit) {

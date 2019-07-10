@@ -18,7 +18,6 @@ const classComponentUpdater = {
     }
 
     enqueueUpdate(fiber, update);
-
   }
 }
 

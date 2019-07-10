@@ -5,7 +5,7 @@ import { request } from 'requestidlecallback';
 export default function performWork (deadline) {
 
   workLoop(deadline);
-  if (worker.nextUnitOfWork || worker.updateQueue.length > 0) {
+  if (worker.nextUnitOfWork) {
     request(performWork);
   }
 };
