@@ -4966,7 +4966,9 @@ ReactCurrentOwner$2.current=null;// The commit phase is broken into several sub-
 startCommitSnapshotEffectsTimer();prepareForCommit(root.containerInfo);nextEffect=firstEffect;do{{invokeGuardedCallback(null,commitBeforeMutationEffects,null);if(hasCaughtError()){(function(){if(!(nextEffect!==null)){throw ReactError('Should be working on an effect.');}})();var error=clearCaughtError();captureCommitPhaseError(nextEffect,error);nextEffect=nextEffect.nextEffect;}}}while(nextEffect!==null);stopCommitSnapshotEffectsTimer();if(enableProfilerTimer){// Mark the current commit time to be shared by all Profilers in this
 // batch. This enables them to be grouped later.
 recordCommitTime();}// The next phase is the mutation phase, where we mutate the host tree.
-startCommitHostEffectsTimer();nextEffect=firstEffect;do{{invokeGuardedCallback(null,commitMutationEffects,null);if(hasCaughtError()){(function(){if(!(nextEffect!==null)){throw ReactError('Should be working on an effect.');}})();var _error=clearCaughtError();captureCommitPhaseError(nextEffect,_error);nextEffect=nextEffect.nextEffect;}}}while(nextEffect!==null);stopCommitHostEffectsTimer();resetAfterCommit(root.containerInfo);// The work-in-progress tree is now the current tree. This must come after
+startCommitHostEffectsTimer();nextEffect=firstEffect;do{{invokeGuardedCallback(null,commitMutationEffects,null);if(hasCaughtError()){(function(){if(!(nextEffect!==null)){throw ReactError('Should be working on an effect.');}})();var _error=clearCaughtError();captureCommitPhaseError(nextEffect,_error);nextEffect=nextEffect.nextEffect;}}}while(nextEffect!==null);stopCommitHostEffectsTimer();// mini program not support
+// resetAfterCommit(root.containerInfo);
+// The work-in-progress tree is now the current tree. This must come after
 // the mutation phase, so that the previous tree is still current during
 // componentWillUnmount, but before the layout phase, so that the finished
 // work is current during componentDidMount/Update.
