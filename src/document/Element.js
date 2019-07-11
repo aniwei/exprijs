@@ -8,5 +8,7 @@ export default class Element {
     
     this.child = null;
     this.return = null;
+    this.silbing = null;
+    this.style = {};
   }
 }

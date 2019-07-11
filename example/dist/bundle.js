@@ -9313,16 +9313,16 @@ function getPublicInstance(instance) {
 }
 
 function prepareForCommit(containerInfo) {
-  eventsEnabled = isEnabled();
-  selectionInformation = getSelectionInformation();
-  setEnabled(false);
+  // eventsEnabled = isEnabled();
+  // selectionInformation = getSelectionInformation();
+  // setEnabled(false);
 }
 
 function resetAfterCommit(containerInfo) {
-  restoreSelection(selectionInformation);
-  selectionInformation = null;
-  setEnabled(eventsEnabled);
-  eventsEnabled = null;
+  // restoreSelection(selectionInformation);
+  // selectionInformation = null;
+  // setEnabled(eventsEnabled);
+  // eventsEnabled = null;
 }
 
 function createInstance(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {

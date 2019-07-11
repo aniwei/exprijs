@@ -20,9 +20,9 @@ module.exports = {
 
   resolve: {
     alias: {
-      '@exprijs': path.resolve(__dirname, 'src'),
-      '@exprijs/renderer': path.resolve(__dirname, 'src'),
-      '@exprijs/document': path.resolve(__dirname, 'src'),
+      'react': path.resolve(__dirname, 'react/build/dist/react.development.js'),
+      '@renderer': path.resolve(__dirname, 'react/build/dist/react-mini-program.development.js'),
+      '@document': path.resolve(__dirname, 'src/document'),
     },
   },
 
