@@ -1,37 +1,27 @@
 import { isNull } from '../shared/is';
-import { NO_EFFECT } from '../shared';
-import { HOST_ROOT } from '../shared/workTags';
 
 
-export function createWorkInProgress (
-  current, 
+export function createWorkProgress (
+  current,
   pendingProps
 ) {
   let { alternate: workInProgress } = current;
-  
+
   if (isNull(workInProgress)) {
     const { 
-      tag, 
-      pendingProps, 
-      key, 
-    } = current;
+      tag,
+      pendingProps,
+      key,
 
-    workInProgress = createFiber(
-      tag, 
-      pendingProps, 
-      key
-    );
-
-    const { 
-      elementType, 
-      type, 
+      type,
+      elementType,
       stateNode
     } = current;
-    
+
+    workInProgress = createFiber(tag, pendingProps, key);
     workInProgress.elementType = elementType;
     workInProgress.type = type;
     workInProgress.stateNode = stateNode;
-    
     workInProgress.alternate = current;
     current.alternate = workInProgress;
   } else {
@@ -65,28 +55,24 @@ export function createWorkInProgress (
   return workInProgress;
 }
 
-function createHostRootFiber () {
-  return createFiber(HOST_ROOT, null, null);
-}
-
-function createFiber(
-  tag, 
-  pendingProps, 
+export function createFiber (
+  tag,
+  pendingProps,
   key
 ) {
-	return new createFiberNode(tag, pendingProps, key);
+  return new createFiberNode(tag, pendingProps, key);
 }
 
-function createFiberNode (
-  tag, 
-  pendingProps, 
+export function createFiberNode (
+  tag,
+  pendingProps,
   key
 ) {
   return {
     tag,
     key,
-    elementType: null,
     type: null,
+    elementType: null,
     stateNode: null,
 
     return: null,
@@ -95,17 +81,8 @@ function createFiberNode (
     index: 0,
     
     ref: null,
-    pendingProps,
+    pendingProps: null,
     memoizedProps: null,
     memoizedState: null,
-    queue: null,
-    contextDependencies: null,
-
-    effectTag: NO_EFFECT,
-    nextEffect: null,
-    firstEffect: null,
-    lastEffect: null,
-
-    alternate: null 
   }
 }
