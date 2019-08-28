@@ -1,3 +1,5 @@
+import { isUndefined } from "util";
+
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY = [];
 export const EMPTY_CONTEXT = {};
@@ -7,7 +9,10 @@ export function noop () {}
 export const assign = Object.assign;
 export const keys = Object.keys;
 
-export function shallowEqual (objectA, objectB) {
+export function shallowEqual (
+  objectA, 
+  objectB
+) {
   if (objectA === null || objectB === null) {
     return false;
   }
@@ -39,7 +44,32 @@ export function shallowEqual (objectA, objectB) {
   return true;
 }
 
-export function extend (target, source) {
+export function resolveDefaultProps (
+  Component,
+  unresolvedProps
+) {
+  if (Component) {
+    if (Component.defaultProps) {
+      const props = extend({}, unresolvedProps);
+      const defaultProps = Component.defaultProps;
+
+      for (let propName in defaultProps) {
+        if (isUndefined(props[propName])) {
+          props[propName] = defaultProps[propName];
+        }
+      }
+
+      return props;
+    }
+  }
+  
+  return unresolvedProps;
+}
+
+export function extend (
+  target, 
+  source,
+) {
   if (source) {
     return assign(target, source);
   }
