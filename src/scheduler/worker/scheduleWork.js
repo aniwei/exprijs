@@ -6,7 +6,7 @@ import worker from './index';
 function scheduleWorkToRoot (fiber) {
   while (fiber) {
     if (fiber.tag === HOST_ROOT) {
-      return fiber;
+      return fiber.stateNode;
     }
 
     fiber = fiber.return;

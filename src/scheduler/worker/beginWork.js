@@ -6,6 +6,8 @@ import {
 import { isNull } from '../../shared/is';
 import updateClassComponent from '../updater/updateClassComponent';
 import updateFunctionComponent from '../updater/updateFunctionComponent';
+import updateHostComponent from '../updater/updateHostComponent';
+import updateHostRoot from '../updater/updateHostRoot';
 
 export default function beginWork (
   current,
@@ -35,7 +37,10 @@ export default function beginWork (
 
   switch (tag) {
     case HOST_ROOT: {
-      break;
+      return updateHostRoot(
+        current,
+        workInProgress
+      );
     }
 
     case CLASS_COMPONENT: {

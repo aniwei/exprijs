@@ -6,5 +6,6 @@ export default function updateContainer (
   root
 ) {
   const current = root.current;
+
   return scheduleRootUpdate(current, element);
 }

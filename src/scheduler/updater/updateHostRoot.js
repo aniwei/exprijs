@@ -7,17 +7,49 @@ export default function updateHostRoot (
 ) {
   pushHostRootContext(workInProgress);
 
-  const reactRoot = workInProgress._reactRoot;
-  const nextProps = workInProgress.pendingProps;
-  const state = workInProgress.memorizeState;
-  const child = isNull(state) ?
-    null : state.element;
+  let updateQueue = workInProgress.updateQueue;
 
+  if (isNull(updateQueue)) {
+    const nextProps = workInProgress.pendingProps;
+    const state = workInProgress.memoizedState;
+    const prevChildren = !isNull(state) ? state.element : null;
+
+    processUpdateQueue(
+      workInProgress,
+      updateQueue,
+      nextProps,
+      null,
+      renderExpirationTime,
+    );
+    const nextState = workInProgress.memoizedState;
+    const children = nextState.element;
+
+    if (children === prevChildren) {
+      return bailoutOnAlreadyFinishedWork(current, workInProgress);
+    }
+    const root = workInProgress.stateNode;
+    
+    if (
+      (current === null || current.child === null) &&
+      root.hydrate &&
+      enterHydrationState(workInProgress)
+    ) {
+      workInProgress.effectTag |= Placement;
+
+      workInProgress.child = mountChildFibers(
+        workInProgress,
+        null,
+        nextChildren,
+        renderExpirationTime,
+      );
+    } else {
+      reconcileChildren(current, workInProgress, nextChildren);
+    }
+    return workInProgress.child;
+  }
   
-  const nextState = workInProgress.memorizeState;
-  const children = nextState.element;
 
-  reconcileChildren(current, workInProgress, children);
+  return bailoutOnAlreadyFinishedWork(current, workInProgress)
 
   return workInProgress.child;
 }

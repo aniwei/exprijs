@@ -61,7 +61,7 @@ function mountClassInstance(
     UNSAFE_componentWillMount,
     componentWillMount,
     componentDidMount
-  }
+  } = instance;
 
   if (
     isDerivedStateFunction &&

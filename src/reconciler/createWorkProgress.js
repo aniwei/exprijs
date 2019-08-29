@@ -1,4 +1,4 @@
-import { isNull } from '../shared/is';
+import { isNull, isNullOrUndefined } from '../shared/is';
 import { HOST_ROOT } from '../shared/workTags';
 
 
@@ -8,7 +8,7 @@ export function createWorkProgress (
 ) {
   let { alternate: workInProgress } = current;
 
-  if (isNull(workInProgress)) {
+  if (isNullOrUndefined(workInProgress)) {
     const { 
       tag,
       pendingProps,

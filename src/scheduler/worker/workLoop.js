@@ -1,5 +1,5 @@
 import worker from './index';
-
+import performUnitOfWork from './performUnitOfWork';
 import { createWorkProgress } from '../../reconciler/createWorkProgress';
 import { isNull } from '../../shared/is';
 import { EXPIRE_TIME } from '../../shared';
