@@ -1,8 +1,9 @@
 
+import { isNull } from '../../shared/is';
 import workLoop from './workLoop';
 import worker from './index';
-import { isNull } from '../../shared/is';
 import completeRoot from './completeRoot';
+import requestWork from './requestWork';
 
 export default function performWork (
   deadline, 
@@ -11,14 +12,14 @@ export default function performWork (
   workLoop(deadline, root);
 
   if (worker.nextUnitOfWork) {
-
+    requestWork(root);
   }
 
   if (isNull(worker.nextUnitOfWork)) {
     worker.finishedWork = root.current.alternate;
 
     if (worker.finishedWork) {
-      completeRoot(root, worker.finishedWork);
+      completeRoot(root, worker.finishedWork);  
     }
   }
 }
