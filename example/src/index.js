@@ -9,6 +9,8 @@ class App extends Component {
   }
 }
 
+
+debugger;
 render(
   <App />, 
   document.getElementById('id'), 

@@ -1,4 +1,5 @@
 import { isNull } from '../shared/is';
+import { HOST_ROOT } from '../shared/workTags';
 
 
 export function createWorkProgress (
@@ -53,6 +54,24 @@ export function createWorkProgress (
   workInProgress.ref = ref;
 
   return workInProgress;
+}
+
+export function createFiberRoot (
+  container,
+
+) {
+  const uninitializedFiber = createFiber(HOST_ROOT, null, null);
+
+  const root = {
+    containerInfo: container,
+    current: uninitializedFiber,
+    didError: false,
+    finishedWork: null,
+  }
+
+  uninitializedFiber.stateNode = root;
+
+  return root;
 }
 
 export function createFiber (

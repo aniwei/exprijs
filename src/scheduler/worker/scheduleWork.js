@@ -1,10 +1,9 @@
-import requestIdleCallback from 'requestidlecallback';
-
-import { HOST_ROOT } from '../shared/workTags';
-import performWork from './performWork';
+import { HOST_ROOT } from '../../shared/workTags';
+import requestWork from './requestWork';
 import resetWork from './resetWork';
+import worker from './index';
 
-function getHostRootFromFiber (fiber) {
+function scheduleWorkToRoot (fiber) {
   while (fiber) {
     if (fiber.tag === HOST_ROOT) {
       return fiber;
@@ -15,8 +14,14 @@ function getHostRootFromFiber (fiber) {
 }
 
 export default function scheduleWork (fiber) {
-  const root = getHostRootFromFiber(fiber);
+  const root = scheduleWorkToRoot(fiber);
 
   resetWork();
-  requestIdleCallback(dl => performWork(dl, root));
+  
+  if (
+    !worker.isWorking ||
+    worker.isCommitting
+  ) {
+    requestWork(root);
+  }
 }

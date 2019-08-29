@@ -3,8 +3,8 @@ import scheduleRootUpdate from '../scheduler/scheduleRootUpdate';
 
 export default function updateContainer (
   element,
-  fiber
+  root
 ) {
-  const current = fiber.current;
+  const current = root.current;
   return scheduleRootUpdate(current, element);
 }

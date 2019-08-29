@@ -1,3 +1,5 @@
 export default {
-  nextUnitOfWork: null
+  nextUnitOfWork: null,
+  isWorking: false,
+  isCommitting: false
 }

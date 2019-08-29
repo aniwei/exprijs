@@ -4,6 +4,8 @@ import {
   FUNCTION_COMPONENT
 } from '../../shared/workTags';
 import { isNull } from '../../shared/is';
+import updateClassComponent from '../updater/updateClassComponent';
+import updateFunctionComponent from '../updater/updateFunctionComponent';
 
 export default function beginWork (
   current,
@@ -37,11 +39,17 @@ export default function beginWork (
     }
 
     case CLASS_COMPONENT: {
-      break;
+      return updateClassComponent(
+        current,
+        workInProgress
+      );
     }
 
     case FUNCTION_COMPONENT: {
-      return 
+      return updateFunctionComponent(
+        current,
+        workInProgress
+      )
     }
   }
   
