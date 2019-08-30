@@ -1,5 +1,5 @@
-import { isNull, isNullOrUndefined } from '../shared/is';
-import { HOST_ROOT } from '../shared/workTags';
+import { isNull, isNullOrUndefined, isFunction, isComponentConstructor, isString } from '../shared/is';
+import { HOST_ROOT, CLASS_COMPONENT } from '../shared/workTags';
 
 
 export function createWorkProgress (
@@ -37,7 +37,7 @@ export function createWorkProgress (
     child, 
     memoizedProps, 
     memoizedState, 
-    queue, 
+    updateQueue, 
     sibling,
     index,
     ref,
@@ -47,7 +47,7 @@ export function createWorkProgress (
   workInProgress.child = child;
   workInProgress.memoizedProps = memoizedProps;
   workInProgress.memoizedState = memoizedState;
-  workInProgress.queue = queue;
+  workInProgress.updateQueue = updateQueue;
   workInProgress.contextDependencies = contextDependencies;
   workInProgress.sibling = sibling;
   workInProgress.index = index;
@@ -72,6 +72,47 @@ export function createFiberRoot (
   uninitializedFiber.stateNode = root;
 
   return root;
+}
+
+export function createFiberFromElement (
+  element
+) {
+  const owner = null;
+  owner = element._owner;
+
+  const type = element.type;
+  const key = element.key;
+
+  const pendingProps = element.props;
+  const fiber = createFiberFromTypeAndProps(type, key, pendingProps, owner);
+
+  return fiber;
+}
+
+export function createFiberFromTypeAndProps (
+  type, 
+  key, 
+  pendingProps, 
+  owner
+) {
+  let tag = IN_COMPONENT;
+  // let resolvedType = type;
+  if (isFunction(type)) {
+    if (isComponentConstructor(type)) {
+      tag = CLASS_COMPONENT;
+      // resolvedType = 
+    }
+  } else if (isString(type)) {
+    tag = HOST_COMPONENT;
+  } else {
+
+  }
+
+  const fiber = createFiber(tag, pendingProps, key);
+  fiber.elementType = type;
+  fiber.type = type;
+
+  return fiber;
 }
 
 export function createFiber (

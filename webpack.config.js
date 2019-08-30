@@ -20,8 +20,8 @@ module.exports = {
 
   resolve: {
     alias: {
-      'react': path.resolve(__dirname, 'src/index'),
-      'react-dom': path.resolve(__dirname, 'src/index'),
+      // 'react': path.resolve(__dirname, 'src/index'),
+      // 'react-dom': path.resolve(__dirname, 'src/index'),
       'document': path.resolve(__dirname, 'src/document'),
     },
   },

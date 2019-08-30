@@ -28,6 +28,10 @@ export function isNullOrUndefined (o) {
   return o === undefined || o === null;
 }
 
+export function isComponentConstructor (Component) {
+  return !!(Component.prototype && prototype.isReactComponent);
+}
+
 export const is = Object.is || function (x, y) {
   if (x === y) {
     return x !== 0 || 1 / x === 1 / y;

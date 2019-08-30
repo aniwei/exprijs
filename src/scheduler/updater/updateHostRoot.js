@@ -1,26 +1,28 @@
+import { PLACEMENT } from '../../shared/effectTags';
+import { isNullOrUndefined } from '../../shared/is';
 import pushHostRootContext from '../../context/pushHostRootContext';
 import reconcileChildren from '../../reconciler/reconcileChildren';
-import { PLACEMENT } from '../../shared/effectTags';
+import processUpdateQueue from './processUpdateQueue';
+import cloneChildFibers from '../../reconciler/cloneChildFibers'
 
 export default function updateHostRoot (
   current,
   workInProgress,
 ) {
-  pushHostRootContext(workInProgress);
+  // pushHostRootContext(workInProgress);
 
   let updateQueue = workInProgress.updateQueue;
 
-  if (isNull(updateQueue)) {
+  if (isNullOrUndefined(updateQueue)) {
     const nextProps = workInProgress.pendingProps;
     const state = workInProgress.memoizedState;
-    const prevChildren = !isNull(state) ? state.element : null;
+    const prevChildren = !isNullOrUndefined(state) ? state.element : null;
 
     processUpdateQueue(
       workInProgress,
       updateQueue,
       nextProps,
       null,
-      renderExpirationTime,
     );
     const nextState = workInProgress.memoizedState;
     const children = nextState.element;
@@ -32,7 +34,7 @@ export default function updateHostRoot (
     const root = workInProgress.stateNode;
     
     if (
-      (isNull(current) || isNull(current.child))
+      (isNullOrUndefined(current) || isNullOrUndefined(current.child))
     ) {
       workInProgress.effectTag |= PLACEMENT;
 
@@ -47,16 +49,14 @@ export default function updateHostRoot (
     }
 
     return workInProgress.child;
-  }
-  
-  return bailoutOnAlreadyFinishedWork(current, workInProgress)
+  }  
 }
 
 function bailoutOnAlreadyFinishedWork (
   current,
   workInProgress
 ) {
-  if (!isNull(current)) {
+  if (!isNullOrUndefined(current)) {
     workInProgress.firstContextDependency = current.firstContextDependency;
   }
 

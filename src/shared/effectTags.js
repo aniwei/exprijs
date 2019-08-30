@@ -5,6 +5,7 @@ export const UPDATE = 4;
 export const PLACEMENT_AND_UPDATE = 6;
 export const DELETION = 8;
 export const CONTENT_RESET = 11;
+export const CALLBACK = 16;
 
 export const PASSIVE = 512
 export const INCOMPLETE = 1024;
