@@ -1,11 +1,11 @@
 import { isNullOrUndefined } from '../../shared/is';
 import createUpdateQueue from './createUpdateQueue';
+import appendUpdateToQueue from './appendUpdateToQueue';
 
 export default function enqueueUpdate (
   fiber, 
   update
 ) {
-  debugger;
   const alternate = fiber.alternate;
 
   let firstQueue;
@@ -22,5 +22,12 @@ export default function enqueueUpdate (
   } else {
     firstQueue = fiber.updateQueue;
     secondQueue = alternate.updateQueue;
+  }
+
+  if (
+    isNullOrUndefined(secondQueue) || 
+    firstQueue === secondQueue
+  ) {
+    appendUpdateToQueue(firstQueue, update);
   }
 }

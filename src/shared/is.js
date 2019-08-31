@@ -1,3 +1,5 @@
+import { HOST_COMPONENT, HOST_PORTAL, HOST_ROOT } from './workTags';
+
 export const isArray = Array.isArray;
 
 export function isNull (o) {
@@ -29,7 +31,25 @@ export function isNullOrUndefined (o) {
 }
 
 export function isComponentConstructor (Component) {
-  return !!(Component.prototype && prototype.isReactComponent);
+  const proto = Component.prototype;
+
+  return !!(proto && proto.isReactComponent);
+}
+
+export function isContextProvider (Component) {
+  const { childContextTypes } = Component;
+  
+  return !isNullOrUndefined(childContextTypes);
+}
+
+export function isHostParent (fiber) {
+  const { tag } = fiber;
+
+  return (
+    tag === HOST_COMPONENT ||
+    tag === HOST_ROOT ||
+    tag === HOST_PORTAL
+  );
 }
 
 export const is = Object.is || function (x, y) {

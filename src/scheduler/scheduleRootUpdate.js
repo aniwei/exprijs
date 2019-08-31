@@ -13,7 +13,7 @@ export default function scheduleRootUpdate(current, element, callback) {
     update.callback = callback;
   }
 
-  enqueueUpdate(current, update);
 
+  enqueueUpdate(current, update);
   scheduleWork(current, element);
 }

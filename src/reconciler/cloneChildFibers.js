@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from '../shared/is';
-import { createWorkProgress } from './createWorkProgress';
+import { createWorkProgress } from './FiberNode';
 
 export default function cloneChildFibers (
   current, 

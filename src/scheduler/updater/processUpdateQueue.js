@@ -1,6 +1,7 @@
 import { isNullOrUndefined, isFunction } from '../../shared/is';
 import cloneUpdateQueue from './cloneUpdateQueue';
 import { UPDATE_STATE } from '../../shared/updateTags';
+import { CALLBACK } from '../../shared/effectTags';
 
 export default function processUpdateQueue (
   workInProgress,
@@ -15,7 +16,7 @@ export default function processUpdateQueue (
     }
   }
 
-  const update = queue.firstUpdate;
+  let update = queue.firstUpdate;
   let state = queue.baseState;
 
   while (!isNullOrUndefined(update)) {

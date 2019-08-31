@@ -1,5 +1,5 @@
 import { isNull, isNullOrUndefined } from '../shared/is';
-import mountChildren from './mountChildren';
+import mountChildFibers from './mountChildFibers';
 import reconcileChildFibers from './reconcileChildFibers';
 
 export default function reconcileChildren (
@@ -8,15 +8,15 @@ export default function reconcileChildren (
   nextChild
 ) {
   if (isNullOrUndefined(current)) {
-    workInProgress.child = mountChildren(
+    workInProgress.child = mountChildFibers(
       workInProgress,
-      isNull(current) ? null : current.child,
+      isNullOrUndefined(current) ? null : current.child,
       nextChild
     )
   } else {
     workInProgress.child = reconcileChildFibers(
       workInProgress,
-      isNull(current) ? null : current.child,
+      isNullOrUndefined(current) ? null : current.child,
       nextChild
     )
   }

@@ -1,5 +1,6 @@
 import { isNull, isNullOrUndefined, isFunction, isComponentConstructor, isString } from '../shared/is';
-import { HOST_ROOT, CLASS_COMPONENT } from '../shared/workTags';
+import { HOST_ROOT, HOST_COMPONENT, CLASS_COMPONENT, INDETERMINATE_COMPONENT, HOST_TEXT } from '../shared/workTags';
+import { NO_EFFECT } from '../shared/effectTags';
 
 
 export function createWorkProgress (
@@ -74,10 +75,15 @@ export function createFiberRoot (
   return root;
 }
 
+export function createFiberFromText(content) {
+  var fiber = createFiber(HOST_TEXT, content, null);
+  return fiber;
+}
+
 export function createFiberFromElement (
   element
 ) {
-  const owner = null;
+  let owner = null;
   owner = element._owner;
 
   const type = element.type;
@@ -95,7 +101,8 @@ export function createFiberFromTypeAndProps (
   pendingProps, 
   owner
 ) {
-  let tag = IN_COMPONENT;
+  let tag = INDETERMINATE_COMPONENT;
+  
   // let resolvedType = type;
   if (isFunction(type)) {
     if (isComponentConstructor(type)) {
@@ -141,8 +148,15 @@ export function createFiberNode (
     index: 0,
     
     ref: null,
-    pendingProps: null,
+    pendingProps,
     memoizedProps: null,
     memoizedState: null,
+
+    effectTag: NO_EFFECT,
+    nextEffect: null,
+    firstEffect: null,
+    lastEffect: null,
+
+    alternate: null
   }
 }

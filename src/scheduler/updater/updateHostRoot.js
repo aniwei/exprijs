@@ -10,46 +10,29 @@ export default function updateHostRoot (
   workInProgress,
 ) {
   // pushHostRootContext(workInProgress);
-
   let updateQueue = workInProgress.updateQueue;
 
-  if (isNullOrUndefined(updateQueue)) {
-    const nextProps = workInProgress.pendingProps;
-    const state = workInProgress.memoizedState;
-    const prevChildren = !isNullOrUndefined(state) ? state.element : null;
+  const pendingProps = workInProgress.pendingProps;
+  const memoizedState = workInProgress.memoizedState;
+  const children = !isNullOrUndefined(memoizedState) ? memoizedState.element : null;
+  
+  processUpdateQueue(
+    workInProgress,
+    updateQueue,
+    pendingProps,
+    null,
+  );
 
-    processUpdateQueue(
-      workInProgress,
-      updateQueue,
-      nextProps,
-      null,
-    );
-    const nextState = workInProgress.memoizedState;
-    const children = nextState.element;
+  const nextState = workInProgress.memoizedState;
+  const nextChildren = nextState.element;
 
-    if (children === prevChildren) {
-      return bailoutOnAlreadyFinishedWork(current, workInProgress);
-    }
+  if (children === nextChildren) {
+    return bailoutOnAlreadyFinishedWork(current, workInProgress);
+  }
 
-    const root = workInProgress.stateNode;
-    
-    if (
-      (isNullOrUndefined(current) || isNullOrUndefined(current.child))
-    ) {
-      workInProgress.effectTag |= PLACEMENT;
+  reconcileChildren(current, workInProgress, nextChildren);
 
-      workInProgress.child = mountChildFibers(
-        workInProgress,
-        null,
-        nextChildren,
-        renderExpirationTime,
-      );
-    } else {
-      reconcileChildren(current, workInProgress, nextChildren);
-    }
-
-    return workInProgress.child;
-  }  
+  return workInProgress.child;
 }
 
 function bailoutOnAlreadyFinishedWork (

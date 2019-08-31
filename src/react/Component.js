@@ -19,8 +19,6 @@ export default class Component {
     this.updater = updater;
   }
 
-  isReactComponent = EMPTY_OBJECT;
-
   setState (state, callback = noop) {
     this.updater.enqueueSetState(this, state, callback);
   }
@@ -54,3 +52,6 @@ export default class Component {
     throw new Error(`React Component render must be implatate`);
   }
 }
+
+
+Component.prototype.isReactComponent = EMPTY_OBJECT;

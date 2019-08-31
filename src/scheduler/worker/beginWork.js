@@ -1,13 +1,15 @@
 import { 
   HOST_ROOT,
   CLASS_COMPONENT,
-  FUNCTION_COMPONENT
+  FUNCTION_COMPONENT,
+  HOST_TEXT
 } from '../../shared/workTags';
-import { isNull } from '../../shared/is';
+import { isNull, isNullOrUndefined } from '../../shared/is';
 import updateClassComponent from '../updater/updateClassComponent';
 import updateFunctionComponent from '../updater/updateFunctionComponent';
 import updateHostComponent from '../updater/updateHostComponent';
 import updateHostRoot from '../updater/updateHostRoot';
+import updateHostText from '../updater/updateHostText';
 
 export default function beginWork (
   current,
@@ -15,7 +17,7 @@ export default function beginWork (
 ) {
   const { tag } = workInProgress;
 
-  if (!isNull(current)) {
+  if (!isNullOrUndefined(current)) {
     const props = current.memorizeProps;
     const newProps = workInProgress.pendingProps;
 
@@ -55,6 +57,13 @@ export default function beginWork (
         current,
         workInProgress
       )
+    }
+
+    case HOST_TEXT: {
+      return updateHostText(
+        current,
+        workInProgress
+      );
     }
   }
   

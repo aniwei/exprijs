@@ -1,4 +1,7 @@
-import { isNull, isString, isNumber, isArray } from '../shared/is';
+import { isNull, isString, isNumber, isArray, isNullOrUndefined } from '../shared/is';
+import { REACT_FRAGMENT_TYPE } from '../shared/elementTypes';
+import { createFiberFromElement } from '../reconciler/FiberNode';
+import { PLACEMENT } from '../shared/effectTags';
 
 export default function ChildrenReconciler (
   shouldTrackSideEffects
@@ -17,11 +20,31 @@ export default function ChildrenReconciler (
     currentFirstChild,
     newChild
   ) {
+    const { key, type } = newChild;
+    const child = currentFirstChild;
 
+    while (!isNullOrUndefined(child)) {
+      if (child.key === key) {
+
+      }
+    }
+
+    if (type === REACT_FRAGMENT_TYPE) {
+
+    } else {
+      const fiber = createFiberFromElement(newChild);
+      
+      fiber.return = returnFiber;
+      return fiber;
+    }
   }
 
-  function placeSingleChild () {
+  function placeSingleChild (fiber) {
+    if (shouldTrackSideEffects && isNullOrUndefined(fiber.alternate)) {
+      fiber.effectTag |= PLACEMENT;
+    }
 
+    return fiber;
   }
 
   function deleteRemainingChildren (

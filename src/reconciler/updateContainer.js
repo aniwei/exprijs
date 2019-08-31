@@ -3,9 +3,10 @@ import scheduleRootUpdate from '../scheduler/scheduleRootUpdate';
 
 export default function updateContainer (
   element,
-  root
+  root,
+  callback
 ) {
   const current = root.current;
 
-  return scheduleRootUpdate(current, element);
+  return scheduleRootUpdate(current, element, callback);
 }

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=development webpack-dev-server --watch --color --progress",
+    "react:start": "NODE_ENV=development webpack-dev-server --config webpack.react.config.js --watch --color --progress",
     "build": "webpack"
   },
   "repository": {

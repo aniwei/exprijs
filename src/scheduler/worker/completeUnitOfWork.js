@@ -5,43 +5,71 @@ import {
 } from '../../shared/effectTags';
 
 import completeWork from './completeWork';
-import { isNull } from '../../shared/is';
+import { isNull, isContextProvider, isNullOrUndefined } from '../../shared/is';
 
 export default function completeUnitOfWork (workInProgress) {
-  while (true) {
+  do {
     const current = workInProgress.alternate;
     const returnFiber = workInProgress.return;
     const siblingFiber = workInProgress.sibling;
-
     const effectTag = workInProgress.effectTag;
 
-    if (effectTag & INCOMPLETE === NO_EFFECT) {
+
+    if ((effectTag & INCOMPLETE) === NO_EFFECT) {
       let next = completeWork(current, workInProgress);
+
+      if (!isNullOrUndefined(next)) {
+        return next;
+      }
       
+      // set effect 
       if (
-        !isNull(returnFiber) &&
-        (returnFiber.effectTag & INCOMPLETE === NO_EFFECT)
+        !isNullOrUndefined(returnFiber) &&
+        ((returnFiber.effectTag & INCOMPLETE) === NO_EFFECT)
       ) {
+        if (isNullOrUndefined(returnFiber.firstEffect)) {
+          returnFiber.firstEffect = workInProgress.firstEffect;
+        }
+
+        if (!isNullOrUndefined(workInProgress.lastEffect)) {
+          if (!isNullOrUndefined(returnFiber.lastEffect)) {
+            returnFiber.lastEffect.nextEffect = workInProgress.firstEffect;
+          }
+
+          returnFiber.lastEffect = workInProgress.lastEffect;
+        }
+
         if (effectTag > PERFORMED_WORK) {
-          returnFiber
+          if (!isNullOrUndefined(returnFiber.lastEffect)) {
+            returnFiber.lastEffect.nextEffect = workInProgress;
+          } else {
+            returnFiber.firstEffect = workInProgress;
+          }
+          returnFiber.lastEffect = workInProgress;
         }
       }
   
-      if (!isNull(siblingFiber)) {
-        return siblingFiber;
-      } else if (!isNull(returnFiber)) {
-        workInProgress = returnFiber;
-      } else {
-        break;
-      }
     } else {
-      if (!isNull(siblingFiber)) {
-        return siblingFiber;
-      } else if (!isNull(returnFiber)) {
-        workInProgress = returnFiber;
-      } else {
-        break;
+      const next = unwindWork(workInProgress);
+
+      if (!isNullOrUndefined(next)) {
+        next.effectTag &= HostEffectMask;
+        return next;
+      }
+
+      if (!isNullOrUndefined(returnFiber)) {
+        returnFiber.firstEffect = returnFiber.lastEffect = null;
+        returnFiber.effectTag |= INCOMPLETE;
       }
     }
-  }
+
+    if (!isNullOrUndefined(siblingFiber)) {
+      return siblingFiber;
+    }
+
+    workInProgress = returnFiber;
+
+  } while (!isNullOrUndefined(workInProgress));
+
+  // root complete 
 }

@@ -1,17 +1,19 @@
-import { isNull } from '../../shared/is';
+import { isNullOrUndefined } from '../../shared/is';
 import completeUnitOfWork from './completeUnitOfWork';
 import beginWork from './beginWork';
 
 export default function performUnitOfWork (
   workInProgress
 ) {
-  debugger;
+  if (!workInProgress) {
+    debugger;
+  }
   const current = workInProgress.alternate;
   let next = beginWork(current, workInProgress);
 
   workInProgress.memoizedProps= workInProgress.pendingProps;
 
-  if (isNull(next)) {
+  if (isNullOrUndefined(next)) {
     next = completeUnitOfWork(workInProgress);
   }
 

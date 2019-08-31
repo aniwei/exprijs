@@ -9,5 +9,18 @@
 <body>
   <div id="id"></div>
 </body>
+<script>
+  const createElement = document.createElement;
+  const createTextNode = document.createTextNode;
+  document.createElement = (type, props) => {
+    debugger;
+    return createElement.call(document, type, props);
+  }
+
+  document.createTextNode = (text) => {
+    debugger;
+    return createTextNode.call(document, text);
+  }
+</script>
 <script src="./dist/bundle.js"></script>
 </html>

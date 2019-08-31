@@ -22,6 +22,7 @@ export default function scheduleWork (fiber) {
     !worker.isWorking ||
     worker.isCommitting
   ) {
+    worker.isWorking = true;
     requestWork(root);
   }
 }

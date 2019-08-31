@@ -1,5 +1,5 @@
 
-import { isNull } from '../../shared/is';
+import { isNull, isNullOrUndefined } from '../../shared/is';
 import workLoop from './workLoop';
 import worker from './index';
 import completeRoot from './completeRoot';
@@ -15,7 +15,7 @@ export default function performWork (
     requestWork(root);
   }
 
-  if (isNull(worker.nextUnitOfWork)) {
+  if (isNullOrUndefined(worker.nextUnitOfWork)) {
     worker.finishedWork = root.current.alternate;
 
     if (worker.finishedWork) {

@@ -1,7 +1,7 @@
 import worker from './index';
 import performUnitOfWork from './performUnitOfWork';
-import { createWorkProgress } from '../../reconciler/createWorkProgress';
-import { isNull } from '../../shared/is';
+import { createWorkProgress } from '../../reconciler/FiberNode';
+import { isNull, isNullOrUndefined } from '../../shared/is';
 import { EXPIRE_TIME } from '../../shared';
 
 export default function workLoop (
@@ -14,7 +14,7 @@ export default function workLoop (
   }
 
   while (
-    !isNull(worker.nextUnitOfWork) &&
+    !isNullOrUndefined(worker.nextUnitOfWork) &&
     deadline.timeRemaining() > EXPIRE_TIME
   ) {
     worker.nextUnitOfWork = performUnitOfWork(worker.nextUnitOfWork);

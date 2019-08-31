@@ -1,9 +1,10 @@
 import { resolveDefaultProps, EMPTY_OBJECT } from '../../shared';
 import { isNull, isFunction, isNullOrUndefined } from '../../shared/is';
-import { PLACEMENT, UPDATE, PERFORMED_WORK } from '../../shared/effectTags';
+import { PLACEMENT, UPDATE, PERFORMED_WORK, NO_EFFECT, DID_CAPTURE } from '../../shared/effectTags';
 import classComponentUpdater from './classComponentUpdater';
 import processUpdateQueue from './processUpdateQueue';
 import reconcileChildren from '../../reconciler/reconcileChildren';
+import ReactCurrentOwner from '../../react/ReactCurrentOwner';
 
 function constructClassInstance (
   workInProgress,
@@ -33,6 +34,8 @@ function mountClassInstance(
   props,
 ) {
   const instance = workInProgress.stateNode;
+  
+  const hasContext = false;
   instance.props = props;
 
   instance.state = workInProgress.memoizedState;
@@ -41,7 +44,7 @@ function mountClassInstance(
   // context
   let updateQueue = workInProgress.updateQueue;
 
-  if (!isNull(updateQueue)) {
+  if (!isNullOrUndefined(updateQueue)) {
     processUpdateQueue(workInProgress, updateQueue, props, instance);
 
     instance.state = workInProgress.memoizedState;
@@ -106,16 +109,28 @@ function finishClassComponent (
 ) {
 
   const instance = workInProgress.stateNode;
+  const didCaptureError = workInProgress.effectTag  & DID_CAPTURE === NO_EFFECT;
+
+  ReactCurrentOwner.current = workInProgress;
+  workInProgress.effectTag |= PERFORMED_WORK;
+
+  let nextChildren;
+
+  if (didCaptureError && !isFunction(Component.getDerivedStateFromError)) {
+
+  } else {
+    nextChildren = instance.render();
+  }
 
   workInProgress.effectTag |= PERFORMED_WORK;
 
-  if (!isNull(current)) {
-
+  if (!isNull(current) && didCaptureError) {
+    // 
   } else {
     reconcileChildren(
       current,
       workInProgress,
-      children
+      nextChildren
     )
   }
 
@@ -166,10 +181,11 @@ export default function updateClassComponent (
     resolveDefaultProps(Component, unresolvedProps);
 
   const instance = workInProgress.stateNode;
+  const hasContext = false;
   let shouldUpdate;
 
-  if (isNull(instance)) {
-    if (!isNull(current)) {
+  if (isNullOrUndefined(instance)) {
+    if (!isNullOrUndefined(current)) {
       current.alternate = null;
       workInProgress.alternate = null;
       workInProgress.effectTag |= PLACEMENT;
