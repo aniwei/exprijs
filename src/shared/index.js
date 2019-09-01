@@ -3,6 +3,7 @@ const randomKey = Math.random().toString(36).slice(2);
 export const CHILDREN = 'children';
 export const HTML = '__html';
 export const STYLE = 'style';
+export const STYLE_NAME_FLOAT = 'float';
 export const DANGEROUSLY_SET_INNER_HTML = 'dangerouslySetInnerHTML';
 export const INTERNAL_INSTANCE_KEY = '__reactInternalInstance$' + randomKey;
 export const INTERNAL_EVENT_HANDLERS_KEY = '__reactEventHandlers$' + randomKey;

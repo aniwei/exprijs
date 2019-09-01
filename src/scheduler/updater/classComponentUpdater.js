@@ -1,3 +1,4 @@
+import scheduleWork from '../worker/scheduleWork';
 import createUpdate from './createUpdate';
 import enqueueUpdate from './enqueueUpdate';
 import { isFunction } from '../../shared/is';

@@ -52,7 +52,6 @@ export default function completeWork (
 
         workInProgress.stateNode = instance;
 
-        debugger;
         setInitialProperties(instance, type, nextProps, rootContainerInstance);
       }
 

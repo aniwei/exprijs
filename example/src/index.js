@@ -4,8 +4,21 @@ import { document } from 'document';
 
 
 class App extends Component {
+  state = {
+    text: 'hello work'
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      debugger;
+      this.setState({
+        text: 'ok!'
+      })
+    }, 1500)
+  }
+
   render () {
-    return <div>Hello work</div>
+    return <div>{this.state.text}</div>
   }
 }
 

@@ -207,6 +207,7 @@ export default function updateClassComponent (
   } else if (isNull(current)) {
 
   } else {
+    debugger;
     shouldUpdate = updateClassInstance(
       workInProgress,
       Component,

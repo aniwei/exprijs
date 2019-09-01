@@ -1,7 +1,8 @@
-import worker from './index';
 import { PLACEMENT, UPDATE, DELETION, PLACEMENT_AND_UPDATE } from '../../shared/effectTags';
 import { isNullOrUndefined } from '../../shared/is';
 import commitPlacement from './commitPlacement';
+import commitWork from './commitWork';
+import worker from './index';
 
 
 export default function commitAllHostEffects () {
@@ -11,7 +12,6 @@ export default function commitAllHostEffects () {
 
     switch (primaryEffectTag) {
       case PLACEMENT: {
-        debugger;
         commitPlacement(worker.nextEffect);
 
         worker.nextEffect.effectTag &= ~PLACEMENT;
@@ -21,7 +21,7 @@ export default function commitAllHostEffects () {
       case PLACEMENT_AND_UPDATE: {
         commitPlacement(worker.nextEffect);
 
-        worker.nextEffect.effectTag &= ~Placement;
+        worker.nextEffect.effectTag &= ~PLACEMENT;
 
         const current = worker.nextEffect.alternate;
         commitWork(current, worker.nextEffect);

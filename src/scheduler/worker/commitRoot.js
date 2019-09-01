@@ -9,7 +9,6 @@ export default function commitRoot (
   root,
   finishedWork
 ) {
-  debugger;
   if (!isNullOrUndefined(finishedWork)) {
     root.finishedWork = null;
   }
@@ -41,7 +40,6 @@ export default function commitRoot (
   }
 
   root.current = finishedWork;
-
   worker.nextEffect = firstEffect;
 
   while (!isNullOrUndefined(worker.nextEffect)) {

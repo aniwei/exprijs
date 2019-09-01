@@ -9,8 +9,6 @@ export default function setInitialProperties (
 ) {
   let props;
 
-  debugger;
-
   switch (tag) {
     default:
       props = nextProps;
