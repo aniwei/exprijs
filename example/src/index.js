@@ -13,6 +13,8 @@ class App extends Component {
       debugger;
       this.setState({
         text: 'ok!'
+      }, () => {
+        debugger;
       })
     }, 1500)
   }
@@ -26,5 +28,7 @@ class App extends Component {
 render(
   <App />, 
   document.getElementById('id'), 
-  () => {}
+  () => {
+    debugger;
+  }
 );

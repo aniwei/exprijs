@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from '../../shared/is';
-import { UPDATE } from '../../shared/effectTags';
+import { UPDATE, CALLBACK } from '../../shared/effectTags';
 import commitLifeCycles from './commitLifeCycles';
 
 import worker from './index';
@@ -10,7 +10,7 @@ export default function commitAllLifeCycles (
   while (!isNullOrUndefined(worker.nextEffect)) {
     const { effectTag } = worker.nextEffect;
 
-    if (effectTag & UPDATE) {
+    if (effectTag & (UPDATE | CALLBACK)) {
       const current = worker.nextEffect.alternate;
 
       commitLifeCycles(root, current, worker.nextEffect)

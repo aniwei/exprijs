@@ -1,10 +1,11 @@
-import { resolveDefaultProps, EMPTY_OBJECT, EMPTY_CONTEXT } from '../../shared';
+import { resolveDefaultProps, shallowEqual, EMPTY_OBJECT, EMPTY_CONTEXT } from '../../shared';
 import { isNull, isFunction, isNullOrUndefined } from '../../shared/is';
 import { PLACEMENT, UPDATE, PERFORMED_WORK, NO_EFFECT, DID_CAPTURE } from '../../shared/effectTags';
 import classComponentUpdater from './classComponentUpdater';
 import processUpdateQueue from './processUpdateQueue';
 import reconcileChildren from '../../reconciler/reconcileChildren';
 import ReactCurrentOwner from '../../react/ReactCurrentOwner';
+import updater from './index';
 
 function constructClassInstance (
   workInProgress,
@@ -119,16 +120,11 @@ function updateClassInstance (
   const hasNewLifecycles = isFunction(getDerivedStateFromProps) || isFunction(instance.getSnapshotBeforeUpdate);
 
   if (!hasNewLifecycles) {
-    const componentWillReceiveProps = instance.UNSAFE_componentWillReceiveProps || instance.componentWillReceiveProps;
-    if (isFunction(componentWillReceiveProps)) {
-      const state = instance.state;
-
-      componentWillReceiveProps.call(instance, instance.pendingProps, nextContext);
-
-      if (instance.state !== state) {
-        classComponentUpdater.enqueueReplaceState(instance, instance.state, null);
-      }
-    }
+    callComponentWillReceiveProps(
+      instance,
+      nextProps, 
+      nextContext
+    );
   }
 
   const state = workInProgress.memoizedState;
@@ -154,6 +150,39 @@ function updateClassInstance (
     }
     return false;
   }
+
+  if (isFunction(getDerivedStateFromProps)) {
+    applyDerivedStateFromProps(workInProgress, Component, getDerivedStateFromProps, nextProps);
+    newState = workInProgress.memoizedState;
+  }
+
+  const shouldUpdate = updater.isForceUpdate || callShouldComponentUpdate(workInProgress, Component, props, nextProps, state, newState, nextContext);
+
+  if (shouldUpdate) {
+    const componentWillMount = instance.UNSAFE_componentWillMount || instance.componentWillMount;
+    if (
+      !hasNewLifecycles && 
+      isFunction(componentWillMount)
+    ) {
+      componentWillMount.call(instance);
+    }
+    if (isFunction(instance.componentDidMount)) {
+      workInProgress.effectTag |= UPDATE;
+    }
+  } else {
+    if (isFunction(instance.componentDidMount)) {
+      workInProgress.effectTag |= UPDATE;
+    }
+
+    workInProgress.memoizedProps = nextProps;
+    workInProgress.memoizedState = newState;
+  }
+
+  instance.props = nextProps;
+  instance.state = newState;
+  instance.context = nextContext;
+
+  return shouldUpdate;
 }
 
 function finishClassComponent (
@@ -190,17 +219,54 @@ function finishClassComponent (
     )
   }
 
-
   workInProgress.memoizedState = instance.state;
 
   return workInProgress.child;
+}
+
+function callShouldComponentUpdate(workInProgress, Component, props, nextProps, state, newState, nextContext) {
+  const instance = workInProgress.stateNode;
+
+  if (isFunction(instance.shouldComponentUpdate)) {
+    let shouldUpdate = instance.shouldComponentUpdate(nextProps, newState, nextContext);
+   
+    return shouldUpdate;
+  }
+
+  if (Component.prototype && Component.prototype.isPureReactComponent) {
+    return !shallowEqual(props, nextProps) || !shallowEqual(state, newState);
+  }
+
+  return true;
+}
+
+function callComponentWillReceiveProps (instance, nextProps, nextContext) {
+  const componentWillReceiveProps = instance.UNSAFE_componentWillReceiveProps || instance.componentWillReceiveProps;
+  if (isFunction(componentWillReceiveProps)) {
+    const state = instance.state;
+
+    componentWillReceiveProps.call(instance, instance.pendingProps, nextContext);
+
+    if (instance.state !== state) {
+      classComponentUpdater.enqueueReplaceState(instance, instance.state, null);
+    }
+  }
 }
 
 function callComponentWillMount (
   workInProgress,
   instance
 ) {
+  const state = instance.state;
+  const componentWillMount = instance.UNSAFE_componentWillMount || instance.componentDidMount;
 
+  if (isFunction(instance.componentWillMount)) {
+    componentWillMount.call(instance);
+  }
+
+  if (state !== instance.state) {
+    classComponentUpdater.enqueueReplaceState(instance, instance.state, null);
+  }
 }
 
 function applyDerivedStateFromProps (
@@ -263,8 +329,8 @@ export default function updateClassComponent (
   } else if (isNull(current)) {
 
   } else {
-    debugger;
     shouldUpdate = updateClassInstance(
+      current,
       workInProgress,
       Component,
       resolvedProps

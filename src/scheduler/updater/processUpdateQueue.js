@@ -12,7 +12,7 @@ export default function processUpdateQueue (
   // copy queue
   if (!isNullOrUndefined(workInProgress.alternate)) {
     if (queue === workInProgress.alternate.updateQueue) {
-      queue = cloneUpdateQueue(queue);
+      queue = workInProgress.updateQueue = cloneUpdateQueue(queue);
     }
   }
 
@@ -28,7 +28,7 @@ export default function processUpdateQueue (
       update.nextEffet = null;
 
       if (isNullOrUndefined(queue.lastEffect)) {
-        queue.firstUpdate = queue.lastEffect = update;
+        queue.firstEffect = queue.lastEffect = update;
       } else {
         queue.lastEffect.nextEffect = update;
         queue.lastEffect = update;
@@ -37,6 +37,8 @@ export default function processUpdateQueue (
 
     update = update.next;
   }
+
+  console.log('=====> updateQueue', queue);
 
   queue.baseState = state;
   workInProgress.memoizedState = state;

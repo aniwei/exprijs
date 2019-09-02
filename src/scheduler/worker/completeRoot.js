@@ -4,6 +4,8 @@ export default function completeRoot (
   root,
   finishedWork
 ) {
-  root.finishedWork = null;
-  commitRoot(root, finishedWork);
+  if (root.finishedWork) {
+    root.finishedWork = null;
+    commitRoot(root, finishedWork);
+  }
 }

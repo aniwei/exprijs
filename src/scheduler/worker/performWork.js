@@ -19,11 +19,9 @@ export default function performWork (
   }
 
   if (isNullOrUndefined(worker.nextUnitOfWork)) {
-    worker.finishedWork = root.current.alternate;
+    root.finishedWork = root.current.alternate;
 
-    if (worker.finishedWork) {
-      completeRoot(root, worker.finishedWork);  
-    }
+    completeRoot(root, root.finishedWork);  
   }
 
   scheduler.isRendering = false;

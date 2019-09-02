@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from '../shared/is';
-import { createWorkProgress } from './FiberNode';
+import { createWorkInProgress } from './FiberNode';
 
 export default function cloneChildFibers (
   current, 
@@ -7,14 +7,14 @@ export default function cloneChildFibers (
 ) {
   if (!isNullOrUndefined(workInProgress.child)) {
     let child = workInProgress.child;
-    let newChild = createWorkProgress(child, child.pendingProps);
+    let newChild = createWorkInProgress(child, child.pendingProps);
 
     workInProgress.child = newChild;
     newChild.return = workInProgress;
 
     while (!isNullOrUndefined(child.sibling)) {
       child = child.sibling;
-      newChild = createWorkProgress(child, child.pendingProps);
+      newChild = createWorkInProgress(child, child.pendingProps);
       newChild.return = workInProgress;
     }
 

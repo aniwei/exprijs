@@ -1,9 +1,9 @@
 import { isNull, isNullOrUndefined, isFunction, isComponentConstructor, isString } from '../shared/is';
-import { HOST_ROOT, HOST_COMPONENT, CLASS_COMPONENT, INDETERMINATE_COMPONENT, HOST_TEXT } from '../shared/workTags';
+import { HOST_ROOT, HOST_COMPONENT, CLASS_COMPONENT, INDETERMINATE_COMPONENT, HOST_TEXT, FRAGMENT } from '../shared/workTags';
 import { NO_EFFECT } from '../shared/effectTags';
 
 
-export function createWorkProgress (
+export function createWorkInProgress (
   current,
   pendingProps
 ) {
@@ -128,6 +128,14 @@ export function createFiber (
   key
 ) {
   return new createFiberNode(tag, pendingProps, key);
+}
+
+export function createFiberFromFragment (
+  elements,
+  key
+) {
+  var fiber = createFiber(FRAGMENT, elements, key);
+  return fiber;
 }
 
 export function createFiberNode (

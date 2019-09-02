@@ -23,6 +23,7 @@ export default function completeUnitOfWork (workInProgress) {
       }
       
       // set effect 
+      debugger;
       if (
         !isNullOrUndefined(returnFiber) &&
         ((returnFiber.effectTag & INCOMPLETE) === NO_EFFECT)

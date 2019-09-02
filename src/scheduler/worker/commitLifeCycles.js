@@ -1,6 +1,6 @@
 import { CLASS_COMPONENT, FUNCTION_COMPONENT, HOST_ROOT } from '../../shared/workTags';
 import { UPDATE } from '../../shared/effectTags';
-import { isNullOrUndefined } from '../../shared/is';
+import { isNullOrUndefined, isFunction } from '../../shared/is';
 import { resolveDefaultProps } from '../../shared';
 import commitUpdateQueue from './commitUpdateQueue';
 
@@ -28,14 +28,17 @@ export default function commitLifeCycles (
             resolveDefaultProps(finishedWork.type, current.memoizedProps);
           const state = current.memoizedState;
 
-          instance.componentDidUpdate(props, state, instance.__reactInternalSnapshotBeforeUpdate);
+          if (isFunction(instance.componentDidUpdate)) {
+            instance.componentDidUpdate(props, state, instance.__reactInternalSnapshotBeforeUpdate);
+          }
+
         }
       }
 
       const updateQueue = finishedWork.updateQueue;
 
       if (!isNullOrUndefined(updateQueue)) {
-        commitUpdateQueue();
+        commitUpdateQueue(finishedWork, updateQueue, instance);
       }
       break;
     }
@@ -47,19 +50,16 @@ export default function commitLifeCycles (
         let instance;
 
         if (!isNullOrUndefined(finishedWork.child)) {
-          switch (finishedWork.child.tag) {
-            case HostComponent:
-              instance = getPublicInstance(finishedWork.child.stateNode);
-              break;
-            case ClassComponent:
-              instance = finishedWork.child.stateNode;
-              break;
-          }
+          instance = finishedWork.child.stateNode;
         }
 
-        commitUpdateQueue();
+        commitUpdateQueue(finishedWork, updateQueue, instance);
       }
       break;
+    }
+
+    case HOST_COMPONENT: {
+
     }
   }
 }
