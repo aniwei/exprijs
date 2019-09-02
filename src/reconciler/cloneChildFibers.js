@@ -12,7 +12,7 @@ export default function cloneChildFibers (
     workInProgress.child = newChild;
     newChild.return = workInProgress;
 
-    while (isNullOrUndefined(child.sibling)) {
+    while (!isNullOrUndefined(child.sibling)) {
       child = child.sibling;
       newChild = createWorkProgress(child, child.pendingProps);
       newChild.return = workInProgress;

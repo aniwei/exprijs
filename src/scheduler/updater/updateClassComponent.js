@@ -1,4 +1,4 @@
-import { resolveDefaultProps, EMPTY_OBJECT } from '../../shared';
+import { resolveDefaultProps, EMPTY_OBJECT, EMPTY_CONTEXT } from '../../shared';
 import { isNull, isFunction, isNullOrUndefined } from '../../shared/is';
 import { PLACEMENT, UPDATE, PERFORMED_WORK, NO_EFFECT, DID_CAPTURE } from '../../shared/effectTags';
 import classComponentUpdater from './classComponentUpdater';
@@ -96,8 +96,64 @@ function mountClassInstance(
 function updateClassInstance (
   current,
   workInProgress,
+  Component,
+  nextProps
 ) { 
+  const instance = workInProgress.stateNode;
+  const props = workInProgress.memoizedProps;
 
+  instance.props = workInProgress.type === workInProgress.elementType ? 
+    props : resolveDefaultProps(workInProgress.type, props);
+
+  const context = instance.context;
+  const contextTypes = Component.contextTypes;
+  const nextContext = EMPTY_CONTEXT;
+
+  if (!isNullOrUndefined(contextTypes)) {
+    nextContext = {};
+  } else if (false) {
+
+  }
+  
+  const getDerivedStateFromProps = Component.getDerivedStateFromProps;
+  const hasNewLifecycles = isFunction(getDerivedStateFromProps) || isFunction(instance.getSnapshotBeforeUpdate);
+
+  if (!hasNewLifecycles) {
+    const componentWillReceiveProps = instance.UNSAFE_componentWillReceiveProps || instance.componentWillReceiveProps;
+    if (isFunction(componentWillReceiveProps)) {
+      const state = instance.state;
+
+      componentWillReceiveProps.call(instance, instance.pendingProps, nextContext);
+
+      if (instance.state !== state) {
+        classComponentUpdater.enqueueReplaceState(instance, instance.state, null);
+      }
+    }
+  }
+
+  const state = workInProgress.memoizedState;
+  const updateQueue = workInProgress.updateQueue;
+  let newState = instance.state = state;
+
+  if (!isNullOrUndefined(updateQueue)) {
+    processUpdateQueue(workInProgress, updateQueue, nextProps, instance);
+    newState = workInProgress.memoizedState;
+  }
+
+  if (props === nextProps && state === newState) {
+    if (isFunction(instance.componentDidUpdate)) {
+      if (props !== current.memoizedProps || state !== current.memoizedState) {
+        workInProgress.effectTag |= Update;
+      }
+    }
+
+    if (isFunction(instance.getSnapshotBeforeUpdate)) {
+      if (oldProps !== current.memoizedProps || oldState !== current.memoizedState) {
+        workInProgress.effectTag |= Snapshot;
+      }
+    }
+    return false;
+  }
 }
 
 function finishClassComponent (

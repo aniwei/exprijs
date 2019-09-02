@@ -1,15 +1,22 @@
 import HTMLBodyElement from './HTMLBodyElement';
-import createElemeent from './createElement';
+import createElement from './createElement';
 import createTextNode from './createTextNode';
+import createContainer from './createContainer';
 
 
 export default typeof document === 'undefined' ? {
   body: new HTMLBodyElement(),
-  getElementById () {
-
+  getElementById (id) {
+    return createContainer('container');
   },
   getElementsByTagName () {},  
   querySelector () {},
-  createElemeent,
+  addEventListener (type, callback, capture) {
+    debugger;
+  },
+  removeEventListener () {
+    debugger;
+  },
+  createElement,
   createTextNode
 } : document;

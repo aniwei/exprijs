@@ -2,9 +2,11 @@ import { isFunction } from '../shared/is';
 import scheduleWork from './worker/scheduleWork';
 import enqueueUpdate from './updater/enqueueUpdate';
 import createUpdate from './updater/createUpdate';
+import scheduler from './index'
 
 
 export default function scheduleRootUpdate(current, element, callback) {
+  
   const update = createUpdate();
 
   update.payload = { element };
@@ -16,4 +18,6 @@ export default function scheduleRootUpdate(current, element, callback) {
 
   enqueueUpdate(current, update);
   scheduleWork(current, element);
+
+  scheduler.isRendering = true;
 }

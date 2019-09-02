@@ -5,9 +5,6 @@ import beginWork from './beginWork';
 export default function performUnitOfWork (
   workInProgress
 ) {
-  if (!workInProgress) {
-    debugger;
-  }
   const current = workInProgress.alternate;
   let next = beginWork(current, workInProgress);
 

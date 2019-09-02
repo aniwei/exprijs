@@ -2,6 +2,7 @@ import { HOST_ROOT } from '../../shared/workTags';
 import requestWork from './requestWork';
 import resetWork from './resetWork';
 import worker from './index';
+import scheduler from '../index';
 
 function scheduleWorkToRoot (fiber) {
   while (fiber) {

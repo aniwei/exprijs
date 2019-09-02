@@ -4,11 +4,14 @@ import workLoop from './workLoop';
 import worker from './index';
 import completeRoot from './completeRoot';
 import requestWork from './requestWork';
+import scheduler from '../index';
 
 export default function performWork (
   deadline, 
   root,
 ) {
+  worker.isWorking = true;  
+
   workLoop(deadline, root);
 
   if (worker.nextUnitOfWork) {
@@ -22,4 +25,6 @@ export default function performWork (
       completeRoot(root, worker.finishedWork);  
     }
   }
+
+  scheduler.isRendering = false;
 }

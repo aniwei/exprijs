@@ -9,6 +9,9 @@ export default function commitRoot (
   root,
   finishedWork
 ) {
+  worker.isCommitting = true;
+  worker.isWorking = true;
+
   if (!isNullOrUndefined(finishedWork)) {
     root.finishedWork = null;
   }
@@ -53,4 +56,7 @@ export default function commitRoot (
   if (!isNullOrUndefined(firstEffect)) {
 
   }
+
+  worker.isCommitting = false;
+  worker.isWorking = false;
 }
