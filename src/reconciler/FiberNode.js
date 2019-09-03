@@ -12,7 +12,6 @@ export function createWorkInProgress (
   if (isNullOrUndefined(workInProgress)) {
     const { 
       tag,
-      pendingProps,
       key,
 
       type,

@@ -1,5 +1,5 @@
 
-import setInitialDOMProperties from './setInitialDOMProperties';
+import setDOMProperties from './setDOMProperties';
 
 export default function setInitialProperties (
   element, 
@@ -14,7 +14,7 @@ export default function setInitialProperties (
       props = nextProps;
   }
 
-  setInitialDOMProperties(
+  setDOMProperties(
     tag,
     element,
     rootContainerInstance,

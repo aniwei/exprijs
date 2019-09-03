@@ -7,7 +7,5 @@ export default function updateProperties (
   props, 
   nextProps
 ) {
-  debugger;
-
   updateDOMProperties(instance, updateQueue)
 }

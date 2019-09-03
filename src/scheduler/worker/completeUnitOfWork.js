@@ -12,10 +12,10 @@ export default function completeUnitOfWork (workInProgress) {
     const current = workInProgress.alternate;
     const returnFiber = workInProgress.return;
     const siblingFiber = workInProgress.sibling;
-    const effectTag = workInProgress.effectTag;
+    // const effectTag = workInProgress.effectTag;
 
 
-    if ((effectTag & INCOMPLETE) === NO_EFFECT) {
+    if ((workInProgress.effectTag & INCOMPLETE) === NO_EFFECT) {
       let next = completeWork(current, workInProgress);
 
       if (!isNullOrUndefined(next)) {
@@ -23,7 +23,6 @@ export default function completeUnitOfWork (workInProgress) {
       }
       
       // set effect 
-      debugger;
       if (
         !isNullOrUndefined(returnFiber) &&
         ((returnFiber.effectTag & INCOMPLETE) === NO_EFFECT)
@@ -40,7 +39,7 @@ export default function completeUnitOfWork (workInProgress) {
           returnFiber.lastEffect = workInProgress.lastEffect;
         }
 
-        if (effectTag > PERFORMED_WORK) {
+        if (workInProgress.effectTag > PERFORMED_WORK) {
           if (!isNullOrUndefined(returnFiber.lastEffect)) {
             returnFiber.lastEffect.nextEffect = workInProgress;
           } else {

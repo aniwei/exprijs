@@ -17,7 +17,6 @@ export default function commitRoot (
   }
 
   let firstEffect;
-  debugger;
   if (finishedWork.effectTag > PERFORMED_WORK) {
     if (!isNullOrUndefined(finishedWork.lastEffect)) {
       finishedWork.lastEffect.nextEffect = finishedWork;

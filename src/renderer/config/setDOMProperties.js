@@ -59,13 +59,13 @@ export default function setInitialDOMProperties (
   }
 }
 
-function setInnerHTML (
+export function setInnerHTML (
 
 ) {
 
 }
   
-function setValueForStyles (
+export function setValueForStyles (
   element,
   nextProp
 ) {
@@ -84,14 +84,14 @@ function setValueForStyles (
   }
 }
 
-function setTextContent (
+export function setTextContent (
   element,
   content
 ) {
   element.innerText = content;
 }
 
-function setValueForProperty (
+export function setValueForProperty (
   element, 
   propName, 
   nextProp

@@ -4,7 +4,7 @@ module.exports = {
   mode: 'development',
   devtool: 'source-map',
   devServer: {
-    port: 10086,
+    port: 10010,
     host: '0.0.0.0',
     contentBase: path.resolve(__dirname, 'example'),
   },
@@ -20,8 +20,8 @@ module.exports = {
 
   resolve: {
     alias: {
-      // 'react': path.resolve(__dirname, 'src/index'),
-      // 'react-dom': path.resolve(__dirname, 'src/index'),
+      'react': path.resolve(__dirname, 'src/index'),
+      'react-dom': path.resolve(__dirname, 'src/index'),
       'document': path.resolve(__dirname, 'src/document'),
     },
   },

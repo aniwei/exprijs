@@ -29,7 +29,6 @@ export default function commitAllHostEffects () {
       }
 
       case UPDATE: {
-        debugger;
         const current = worker.nextEffect.alternate;
         commitWork(current, worker.nextEffect);
 
