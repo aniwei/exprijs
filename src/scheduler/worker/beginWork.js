@@ -3,12 +3,14 @@ import {
   CLASS_COMPONENT,
   FUNCTION_COMPONENT,
   HOST_TEXT,
-  HOST_COMPONENT
+  HOST_COMPONENT,
+  INDETERMINATE_COMPONENT
 } from '../../shared/workTags';
 import { isNull, isNullOrUndefined } from '../../shared/is';
 import cloneChildFibers from '../../reconciler/cloneChildFibers';
 import updateClassComponent from '../updater/updateClassComponent';
 import updateFunctionComponent from '../updater/updateFunctionComponent';
+import mountIndeterminateComponent from '../updater/mountIndeterminateComponent';
 import updateHostComponent from '../updater/updateHostComponent';
 import updateHostRoot from '../updater/updateHostRoot';
 import updateHostText from '../updater/updateHostText';
@@ -39,6 +41,14 @@ export default function beginWork (
   // }
 
   switch (tag) {
+    case INDETERMINATE_COMPONENT: {
+      return mountIndeterminateComponent(
+        current, 
+        workInProgress,
+        workInProgress.type
+      )
+    }
+
     case HOST_ROOT: {
       return updateHostRoot(
         current,
@@ -61,7 +71,6 @@ export default function beginWork (
     }
 
     case FUNCTION_COMPONENT: {
-      debugger;
       return updateFunctionComponent(
         current,
         workInProgress

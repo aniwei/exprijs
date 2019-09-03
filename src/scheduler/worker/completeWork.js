@@ -1,10 +1,11 @@
-import { INDETERMINATE_COMPONENT, HOST_ROOT, CLASS_COMPONENT, HOST_COMPONENT } from '../../shared/workTags';
+import { INDETERMINATE_COMPONENT, HOST_ROOT, CLASS_COMPONENT, HOST_COMPONENT, FUNCTION_COMPONENT } from '../../shared/workTags';
 import { PLACEMENT } from '../../shared/effectTags';
 import { isNullOrUndefined, isContextProvider } from '../../shared/is';
-import updateHostComponent from '../updater/updateHostComponent';
+import updateHostInstance from '../updater/updateHostInstance';
 import createInstance from '../../renderer/config/createInstance';
 import ReactCurrentRootInstance from '../../react/ReactCurrentRootInstance';
 import setInitialProperties from '../../renderer/config/setInitialProperties';
+import appendAllChildren from '../../renderer/config/appendAllChildren';
 
 
 export default function completeWork (
@@ -22,6 +23,10 @@ export default function completeWork (
       }
       break;
     }
+
+    case FUNCTION_COMPONENT: {
+      break;
+    };
 
     case HOST_ROOT: {
       const root = workInProgress.stateNode;
@@ -46,12 +51,13 @@ export default function completeWork (
       const rootContainerInstance = getRootHostContainer();
 
       if (!isNullOrUndefined(current) && !isNullOrUndefined(workInProgress.stateNode)) {
-        updateHostComponent(current, workInProgress, type, nextProps);
+        updateHostInstance(current, workInProgress, type, nextProps);
       } else {
         const instance = createInstance(type, nextProps, null, null, workInProgress);
 
         workInProgress.stateNode = instance;
 
+        appendAllChildren(instance, workInProgress);
         setInitialProperties(instance, type, nextProps, rootContainerInstance);
       }
 

@@ -6,9 +6,9 @@ export default function appendAllChildren (
   instance,
   workInProgress
 ) {
-  const node = workInProgress.child;
+  let node = workInProgress.child;
 
-  while (isNullOrUndefined(node)) {
+  while (!isNullOrUndefined(node)) {
     if (node.tag === HOST_COMPONENT || node.tag === HOST_TEXT) {
       appendInitialChild(instance, node.stateNode);
     } else if (node.tag === FundamentalComponent) {

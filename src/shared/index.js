@@ -1,3 +1,5 @@
+import { isString } from './is';
+
 const randomKey = Math.random().toString(36).slice(2);
 
 export const CHILDREN = 'children';
@@ -19,6 +21,10 @@ export function noop () {}
 export const assign = Object.assign;
 export const keys = Object.keys;
 
+export function shouldSetTextContent (type, props) {
+  // todo
+  return isString(props.children) || false;
+}
 
 export function shallowEqual (
   objectA, 
