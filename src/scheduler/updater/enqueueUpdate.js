@@ -29,5 +29,13 @@ export default function enqueueUpdate (
     firstQueue === secondQueue
   ) {
     appendUpdateToQueue(firstQueue, update);
+  } else {
+    if (isNullOrUndefined(firstQueue.lastUpdate) || isNullOrUndefined(secondQueue.lastUpdate)) {
+      appendUpdateToQueue(firstQueue, update);
+      appendUpdateToQueue(secondQueue, update);
+    } else {
+      appendUpdateToQueue(firstQueue, update);
+      secondQueue.lastUpdate = update;
+    }
   }
 }

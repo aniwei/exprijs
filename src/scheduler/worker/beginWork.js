@@ -5,11 +5,13 @@ import {
   HOST_TEXT
 } from '../../shared/workTags';
 import { isNull, isNullOrUndefined } from '../../shared/is';
+import cloneChildFibers from '../../reconciler/cloneChildFibers';
 import updateClassComponent from '../updater/updateClassComponent';
 import updateFunctionComponent from '../updater/updateFunctionComponent';
 import updateHostComponent from '../updater/updateHostComponent';
 import updateHostRoot from '../updater/updateHostRoot';
 import updateHostText from '../updater/updateHostText';
+import scheduler from '..';
 
 export default function beginWork (
   current,
@@ -17,23 +19,22 @@ export default function beginWork (
 ) {
   const { tag } = workInProgress;
 
-  if (!isNullOrUndefined(current)) {
-    const props = current.memorizeProps;
-    const newProps = workInProgress.pendingProps;
+  // if (!isNullOrUndefined(current)) {
+  //   const props = current.memoizedProps;
+  //   const newProps = workInProgress.pendingProps;
 
-    if (
-      props === newProps && 
-      workInProgress.isNoWork
-    ) {
-      if (tag === HOST_ROOT) {
-        pushHostRootContext(workInProgress);
-      }
+  //   if (props === newProps) {
+  //     if (tag === HOST_ROOT) {
+  //       // pushHostRootContext(workInProgress);
+  //     }
 
-      cloneChildFibers(current, workInProgress);
-
-      return workInProgress.child;
-    }
-  }
+  //     if (!scheduler.isRendering) {
+  //       cloneChildFibers(current, workInProgress);
+  
+  //       return workInProgress.child;
+  //     }
+  //   }
+  // }
 
   
 

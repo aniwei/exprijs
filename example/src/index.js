@@ -8,15 +8,17 @@ class App extends Component {
     text: 'hello work'
   }
 
+  count = 0;
+
   componentDidMount () {
-    setTimeout(() => {
-      debugger;
-      this.setState({
-        text: 'ok!'
-      }, () => {
-        debugger;
-      })
-    }, 1500)
+    // setInterval(() => {
+    //   const t = new Date();
+    //   this.setState({
+    //     text: ++this.count
+    //   }, () => {
+    //     console.log(Date.now() - t);
+    //   })
+    // }, 1500)
   }
 
   render () {
@@ -24,11 +26,11 @@ class App extends Component {
   }
 }
 
-
+const t = new Date();
 render(
   <App />, 
   document.getElementById('id'), 
   () => {
-    debugger;
+    console.log('====> render', Date.now() - t);
   }
 );

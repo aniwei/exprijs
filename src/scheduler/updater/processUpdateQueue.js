@@ -40,6 +40,8 @@ export default function processUpdateQueue (
 
   console.log('=====> updateQueue', queue);
 
+  queue.firstUpdate = null;
+  queue.lastUpdate = null;
   queue.baseState = state;
   workInProgress.memoizedState = state;
 }
