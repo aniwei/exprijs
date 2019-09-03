@@ -2,27 +2,24 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { document } from 'document';
 
+const Work = () => {
+  return (
+    <div className="one">
+      worker
+    </div>
+  );
+}
+
 
 class App extends Component {
   state = {
     text: 'hello work'
   }
 
-  count = 0;
-
-  componentDidMount () {
-    // setInterval(() => {
-    //   const t = new Date();
-    //   this.setState({
-    //     text: ++this.count
-    //   }, () => {
-    //     console.log(Date.now() - t);
-    //   })
-    // }, 1500)
-  }
-
   render () {
-    return <div>{this.state.text}</div>
+    return <div>
+      <Work />
+    </div>
   }
 }
 

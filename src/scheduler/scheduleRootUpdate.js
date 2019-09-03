@@ -15,9 +15,8 @@ export default function scheduleRootUpdate(current, element, callback) {
     update.callback = callback;
   }
 
+  scheduler.isRootRendering = true;
 
   enqueueUpdate(current, update);
   scheduleWork(current, element);
-
-  scheduler.isRendering = true;
 }

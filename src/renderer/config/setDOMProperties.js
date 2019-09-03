@@ -1,5 +1,5 @@
 import { DANGEROUSLY_SET_INNER_HTML, HTML, CHILDREN, STYLE, STYLE_NAME_FLOAT } from '../../shared';
-import { isNullOrUndefined, isString, isFunction } from '../../shared/is';
+import { isNullOrUndefined, isString, isFunction, isNumber } from '../../shared/is';
 import ensureListeningTo from '../../event/ensureListeningTo';
 import registrationNameModules from '../../event/registrationNameModules';
 

@@ -326,8 +326,6 @@ export default function updateClassComponent (
     );
 
     shouldUpdate = true;
-  } else if (isNull(current)) {
-
   } else {
     shouldUpdate = updateClassInstance(
       current,

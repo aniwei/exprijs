@@ -1,4 +1,4 @@
-import { isNull } from '../../shared/is';
+import { isNull, isNullOrUndefined } from '../../shared/is';
 import { shallowEqual, resolveDefaultProps } from '../../shared';
 import cloneChildFibers from '../../reconciler/cloneChildFibers';
 import reconcileChildren from '../../reconciler/reconcileChildren'
@@ -12,10 +12,7 @@ export default function updateFunctionComponent (
   const unresolvedProps = workInProgress.pendingProps;
   const nextProps = resolveDefaultProps(Component, unresolvedProps);
 
-  if (
-    !isNull(current) &&
-    workInProgress.isNoWork
-  ) {
+  if (!isNullOrUndefined(current)) {
     const props = current.memorizedProps;
 
     if (

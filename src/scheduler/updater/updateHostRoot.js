@@ -43,10 +43,6 @@ function bailoutOnAlreadyFinishedWork (
     workInProgress.firstContextDependency = current.firstContextDependency;
   }
 
-  if (workInProgress.isNoWork) {
-    return null;
-  }
-
   cloneChildFibers(current, workInProgress);
 
   return workInProgress.child;

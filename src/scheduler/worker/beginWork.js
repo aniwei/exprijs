@@ -2,7 +2,8 @@ import {
   HOST_ROOT,
   CLASS_COMPONENT,
   FUNCTION_COMPONENT,
-  HOST_TEXT
+  HOST_TEXT,
+  HOST_COMPONENT
 } from '../../shared/workTags';
 import { isNull, isNullOrUndefined } from '../../shared/is';
 import cloneChildFibers from '../../reconciler/cloneChildFibers';
@@ -19,7 +20,10 @@ export default function beginWork (
 ) {
   const { tag } = workInProgress;
 
-  // if (!isNullOrUndefined(current)) {
+  // if (
+  //   !isNullOrUndefined(current) &&
+  //   !scheduler.isRootRendering
+  // ) {
   //   const props = current.memoizedProps;
   //   const newProps = workInProgress.pendingProps;
 
@@ -28,15 +32,11 @@ export default function beginWork (
   //       // pushHostRootContext(workInProgress);
   //     }
 
-  //     if (!scheduler.isRendering) {
-  //       cloneChildFibers(current, workInProgress);
-  
-  //       return workInProgress.child;
-  //     }
+  //     cloneChildFibers(current, workInProgress);
+
+  //     return workInProgress.child;
   //   }
   // }
-
-  
 
   switch (tag) {
     case HOST_ROOT: {
@@ -53,7 +53,15 @@ export default function beginWork (
       );
     }
 
+    case HOST_COMPONENT: {
+      return updateHostComponent(
+        current,
+        workInProgress
+      );
+    }
+
     case FUNCTION_COMPONENT: {
+      debugger;
       return updateFunctionComponent(
         current,
         workInProgress

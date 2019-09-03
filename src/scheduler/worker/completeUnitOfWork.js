@@ -12,8 +12,6 @@ export default function completeUnitOfWork (workInProgress) {
     const current = workInProgress.alternate;
     const returnFiber = workInProgress.return;
     const siblingFiber = workInProgress.sibling;
-    // const effectTag = workInProgress.effectTag;
-
 
     if ((workInProgress.effectTag & INCOMPLETE) === NO_EFFECT) {
       let next = completeWork(current, workInProgress);
@@ -22,7 +20,6 @@ export default function completeUnitOfWork (workInProgress) {
         return next;
       }
       
-      // set effect 
       if (
         !isNullOrUndefined(returnFiber) &&
         ((returnFiber.effectTag & INCOMPLETE) === NO_EFFECT)

@@ -1,29 +1,21 @@
 import { HOST_ROOT } from '../../shared/workTags';
+import scheduleWorkToRoot from './scheduleWorkToRoot';
 import requestWork from './requestWork';
 import resetWork from './resetWork';
 import worker from './index';
 import scheduler from '../index';
 
-function scheduleWorkToRoot (fiber) {
-  while (fiber) {
-    if (fiber.tag === HOST_ROOT) {
-      return fiber.stateNode;
-    }
 
-    fiber = fiber.return;
-  }
-}
 
 export default function scheduleWork (fiber) {
   const root = scheduleWorkToRoot(fiber);
+  resetWork(root);
 
-  resetWork();
-  
   if (
     !worker.isWorking ||
     worker.isCommitting
   ) {
     worker.isWorking = true;
-    requestWork(root);
+    requestWork(root.current);
   }
 }

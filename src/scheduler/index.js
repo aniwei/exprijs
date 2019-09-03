@@ -1,3 +1,3 @@
 export default {
-  isRendering: false
+  isRootRendering: false,
 }
