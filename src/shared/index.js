@@ -10,6 +10,10 @@ export const DANGEROUSLY_SET_INNER_HTML = 'dangerouslySetInnerHTML';
 export const INTERNAL_INSTANCE_KEY = '__reactInternalInstance$' + randomKey;
 export const INTERNAL_EVENT_HANDLERS_KEY = '__reactEventHandlers$' + randomKey;
 
+export const MERGED_CHILD_CONTEXT = '__reactInternalMemoizedMergedChildContext';
+export const MASKED_CHILD_CONTEXT = '__reactInternalMemoizedMaskedChildContext';
+export const UNMASKED_CHILD_CONTEXT = '__reactInternalMemoizedUnmaskedChildContext';
+
 export const EMPTY_OBJECT = {};
 export const EMPTY_ARRAY = [];
 export const EMPTY_CONTEXT = {};

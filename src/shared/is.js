@@ -36,6 +36,12 @@ export function isComponentConstructor (Component) {
   return !!(proto && proto.isReactComponent);
 }
 
+export function isLegacyContextConsumer (Component) {
+  const contextTypes = Component.contextTypes;
+
+  return isNullOrUndefined(contextTypes);
+}
+
 export function isContextProvider (Component) {
   const { childContextTypes } = Component;
   

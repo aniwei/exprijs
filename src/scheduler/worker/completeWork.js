@@ -19,7 +19,7 @@ export default function completeWork (
     case CLASS_COMPONENT: {
       const Component = workInProgress.type;
       if (isContextProvider(Component)) {
-        popContext();
+        // popContext();
       }
       break;
     }

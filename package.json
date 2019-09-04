@@ -41,6 +41,7 @@
     "webpack-dev-server": "^3.4.1"
   },
   "dependencies": {
+    "prop-types": "^15.7.2",
     "requestidlecallback": "^0.3.0",
     "uuid": "^3.3.2"
   }

@@ -1,20 +1,36 @@
 import { resolveDefaultProps, shallowEqual, EMPTY_OBJECT, EMPTY_CONTEXT } from '../../shared';
-import { isNull, isFunction, isNullOrUndefined } from '../../shared/is';
+import { isNull, isFunction, isNullOrUndefined, isLegacyContextConsumer } from '../../shared/is';
 import { PLACEMENT, UPDATE, PERFORMED_WORK, NO_EFFECT, DID_CAPTURE } from '../../shared/effectTags';
 import classComponentUpdater from './classComponentUpdater';
 import processUpdateQueue from './processUpdateQueue';
 import reconcileChildren from '../../reconciler/reconcileChildren';
 import ReactCurrentOwner from '../../react/ReactCurrentOwner';
+import context from '../../context';
 import updater from './index';
+import getUnmaskedContext from '../../context/getUnmaskedContext';
+import getMaskedContext from '../../context/getMaskedContext';
+
+
 
 function constructClassInstance (
   workInProgress,
   Component,
   props
 ) {
-  let context = null;
+  let ctx = EMPTY_CONTEXT;
+  
+  debugger;
 
-  const instance = new Component(props, context);
+  if (!context.disableLegacyContext) {
+    const unmaskedContext = getUnmaskedContext(workInProgress, Component, true);
+    if (isLegacyContextConsumer(Component)) {
+      ctx = getMaskedContext(workInProgress, unmaskedContext);
+    } else {
+      ctx = EMPTY_CONTEXT;
+    }
+  }
+
+  const instance = new Component(props, ctx);
 
   if (isNullOrUndefined(instance.state)) {
     workInProgress.memoizedState = null;
@@ -220,6 +236,10 @@ function finishClassComponent (
   }
 
   workInProgress.memoizedState = instance.state;
+
+  if (hasContext) {
+    context.invalidateProvider(workInProgress, Component, true);
+  }
 
   return workInProgress.child;
 }
