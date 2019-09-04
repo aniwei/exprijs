@@ -28,12 +28,12 @@ export default function getMaskedContext (
   const ctx = {};
 
   for (let contextKey in contextTypes) {
-    ctx[contextKey] = unmaskedContext[key];
+    ctx[contextKey] = unmaskedContext[contextKey];
   }
 
   if (instance) {
     if (!context.disableLegacyContext) {
-      instance[MERGED_CHILD_CONTEXT] = u
+      instance[MERGED_CHILD_CONTEXT] = ctx;
     }
   }
 

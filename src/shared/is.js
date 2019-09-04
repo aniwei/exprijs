@@ -39,7 +39,7 @@ export function isComponentConstructor (Component) {
 export function isLegacyContextConsumer (Component) {
   const contextTypes = Component.contextTypes;
 
-  return isNullOrUndefined(contextTypes);
+  return !isNullOrUndefined(contextTypes);
 }
 
 export function isContextProvider (Component) {

@@ -21,24 +21,18 @@ export default function createLegacyContext (
 
         cursor.current = current;
         
-        if (fiber === currentFiber) {
-          debugger;
-        }
-        
         this.stack[this.index] = null;
         this.index--;
       }  
     },
 
     push (cursor, value, fiber) {
-      if (this.index > -1) {
-        this.stack[++this.index] = {
-          current: cursor.current,
-          fiber
-        };
+      this.stack[++this.index] = {
+        current: cursor.current,
+        fiber
+      };
 
-        cursor.current = value;
-      }
+      cursor.current = value;
     },
 
     pushProvider (workInProgress) {

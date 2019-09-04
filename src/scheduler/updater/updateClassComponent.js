@@ -1,5 +1,5 @@
 import { resolveDefaultProps, shallowEqual, EMPTY_OBJECT, EMPTY_CONTEXT } from '../../shared';
-import { isNull, isFunction, isNullOrUndefined, isLegacyContextConsumer } from '../../shared/is';
+import { isNull, isFunction, isNullOrUndefined, isLegacyContextConsumer, isContextProvider } from '../../shared/is';
 import { PLACEMENT, UPDATE, PERFORMED_WORK, NO_EFFECT, DID_CAPTURE } from '../../shared/effectTags';
 import classComponentUpdater from './classComponentUpdater';
 import processUpdateQueue from './processUpdateQueue';
@@ -19,8 +19,6 @@ function constructClassInstance (
 ) {
   let ctx = EMPTY_CONTEXT;
   
-  debugger;
-
   if (!context.disableLegacyContext) {
     const unmaskedContext = getUnmaskedContext(workInProgress, Component, true);
     if (isLegacyContextConsumer(Component)) {
@@ -323,8 +321,13 @@ export default function updateClassComponent (
     resolveDefaultProps(Component, unresolvedProps);
 
   const instance = workInProgress.stateNode;
-  const hasContext = false;
+  let hasContext = false;
   let shouldUpdate;
+
+  if (isContextProvider(Component)) {
+    hasContext = true;
+    context.pushProvider(workInProgress);
+  }
 
   if (isNullOrUndefined(instance)) {
     if (!isNullOrUndefined(current)) {
