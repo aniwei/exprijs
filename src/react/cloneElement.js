@@ -1,10 +1,4 @@
-import { 
-  isNull, 
-  isUndefined, 
-  isFunction, 
-  isString,
-} from './shared/is';
-
+import { isNull, isUndefined, isFunction, isString,} from './shared/is';
 import { REACT_ELEMENT_TYPE } from './shared/elementTypes';
 
 function ReactElement (

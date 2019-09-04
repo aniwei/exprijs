@@ -1,10 +1,5 @@
-import { 
-  isArray,
-  isNullOrUndefined
-} from '../shared/is';
-import { 
-  EMPTY_ARRAY
-} from '../shared';
+import { isArray, isNullOrUndefined } from '../shared/is';
+import { EMPTY_ARRAY } from '../shared';
 
 export function map (
   children, 

@@ -8,16 +8,9 @@ class Work extends Component {
     name: PropTypes.string
   }
 
-  constructor (props, context) {
-    super(props, context);
-
-    debugger;
-  }
-
   render () {
-    debugger;
     return <div>
-      Work
+      {this.context.name}
     </div>
   }
 }

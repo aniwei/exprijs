@@ -23,24 +23,6 @@ export default class Component {
     this.updater.enqueueSetState(this, state, callback);
   }
 
-  getState () {
-    const { _pendingStates, state, props } = this
-    if (!_pendingStates.length) {
-      return state
-    }
-    const stateClone = clone(state)
-    const queue = _pendingStates.concat()
-    this._pendingStates.length = 0
-    queue.forEach((nextState) => {
-      if (isFunction(nextState)) {
-        nextState = nextState.call(this, state, props)
-      }
-      extend(stateClone, nextState)
-    })
-
-    return stateClone
-  }
-
   forceUpdate (callback = noop) {
     if (isFunction(callback)) {
       (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
