@@ -23,11 +23,8 @@ export default class Component {
     this.updater.enqueueSetState(this, state, callback);
   }
 
-  forceUpdate (callback = noop) {
-    if (isFunction(callback)) {
-      (this._pendingCallbacks = this._pendingCallbacks || []).push(callback)
-    }
-    updateComponent(this, true)
+  forceUpdate (callback) {
+    this.updater.enqueueForceUpdate(this, callback)
   }
 
   render () {

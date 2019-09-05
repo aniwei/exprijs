@@ -19,8 +19,8 @@ export function map (
 }
 
 export function forEach (
-  children,
-  iterate,
+  children, 
+  iterate, 
   context
 ) {
   if (!isNullOrUndefined(children)) {
@@ -60,7 +60,9 @@ export function only (
   return children[0];
 }
 
-export function toArray (children) {
+export function toArray (
+  children
+) {
   if (isNullOrUndefined(children)) {
     return EMPTY_ARRAY;
   }

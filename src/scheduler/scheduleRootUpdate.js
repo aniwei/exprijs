@@ -5,10 +5,12 @@ import createUpdate from './updater/createUpdate';
 import scheduler from './index'
 
 
-export default function scheduleRootUpdate(current, element, callback) {
-  
+export default function scheduleRootUpdate(
+  current, 
+  element, 
+  callback
+) {
   const update = createUpdate();
-
   update.payload = { element };
 
   if (isFunction(callback)) {

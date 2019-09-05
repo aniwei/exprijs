@@ -5,9 +5,9 @@ import resetWork from './resetWork';
 import worker from './index';
 import scheduler from '../index';
 
-
-
-export default function scheduleWork (fiber) {
+export default function scheduleWork (
+  fiber
+) {
   const root = scheduleWorkToRoot(fiber);
   resetWork(root);
 
