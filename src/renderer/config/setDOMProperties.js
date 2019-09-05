@@ -13,48 +13,37 @@ export default function setInitialDOMProperties (
     if (nextProps.hasOwnProperty(propName)) {
       const nextProp = nextProps[propName];
 
-      if (registrationNameModules.hasOwnProperty(propName)) {
+      if (propName === STYLE) {
+        if (nextProp) {
+          Object.freeze(nextProp);
+        }
+
+        setValueForStyles(element, nextProp);
+      } else if (propName === DANGEROUSLY_SET_INNER_HTML) {
+        const nextHtml = nextProp ? 
+          nextProp[HTML] : 
+          undefined;
+
+        if (!isNullOrUndefined(nextHtml)) {
+          setInnerHTML(element, nextHtml);
+        }
+      } else if (propName === CHILDREN) {
+        if (isString(nextProp)) {
+          const canSetTextContent = tag !== 'textarea' || nextProp !== '';
+  
+          if (canSetTextContent) {
+            setTextContent(element, nextProp);
+          }
+        } else if (isNumber(nextProp)) {
+          setTextContent(element, String(nextProp));
+        }
+      } else if (registrationNameModules.hasOwnProperty(propName)) {
         if (isNullOrUndefined(nextProp)) {
           ensureListeningTo(rootContainerElement, propName);
         }
-      } else if (isFunction(nextProp)) {
+      } else if (!isNullOrUndefined(nextProp)) {
         setValueForProperty(element, propName, nextProp);
-      }  else {
-        switch (propName) {
-          case STYLE: {
-            if (nextProp) {
-              Object.freeze(nextProp);
-            }
-  
-            setValueForStyles(element, nextProp);
-            break;
-          }
-  
-          case DANGEROUSLY_SET_INNER_HTML: {
-            const nextHtml = nextProp ? 
-              nextProp[HTML] : 
-              undefined;
-  
-            if (!isNullOrUndefined(nextHtml)) {
-              setInnerHTML(element, nextHtml);
-            }
-  
-            break;
-          }
-  
-          case CHILDREN: {
-            if (isString(nextProp)) {
-              const canSetTextContent = tag !== 'textarea' || nextProp !== '';
-      
-              if (canSetTextContent) {
-                setTextContent(element, nextProp);
-              }
-            } else if (isNumber(nextProp)) {
-              setTextContent(element, String(nextProp));
-            }
-          }
-        }
-      } 
+      }
     }
   }
 }
@@ -96,5 +85,5 @@ export function setValueForProperty (
   propName, 
   nextProp
 ) {
-
+  element.setAttribute(propName, nextProp)
 }

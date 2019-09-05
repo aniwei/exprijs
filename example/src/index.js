@@ -21,6 +21,10 @@ class App extends Component {
     name: PropTypes.string
   }
 
+  static defaultProps = {
+    className: 'app'
+  }
+
   getChildContext () {
     return {
       name: 'aniwei'
@@ -31,9 +35,14 @@ class App extends Component {
     text: 'hello work'
   }
 
+  getRef = () => {
+    // debugger;
+  }
+
   render () {
-    return <div>
-      <Work />
+    // debugger;
+    return <div className={this.props.className}>
+      <Work ref={this.getRef} />
     </div>
   }
 }

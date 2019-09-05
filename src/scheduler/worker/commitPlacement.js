@@ -1,12 +1,10 @@
 import { HOST_COMPONENT, HOST_ROOT, HOST_PORTAL, HOST_TEXT, FUNCTION_COMPONENT } from '../../shared/workTags';
-import { isNullOrUndefined, isHostParent } from '../../shared/is';
 import { CONTENT_RESET, PLACEMENT } from '../../shared/effectTags';
+import { isNullOrUndefined, isHostParent } from '../../shared/is';
 
 import appendChildToContainer from '../../renderer/config/appendChildToContainer';
 
-function getHostParentFiber (
-  fiber
-) {
+function getHostParentFiber (fiber) {
   let returnFiber = fiber.return;
 
   while (!isNullOrUndefined(returnFiber)) {
@@ -47,7 +45,7 @@ function getHostSibling(
       }
     }
 
-    if (!(node.effectTag & Placement)) {
+    if (!(node.effectTag & PLACEMENT)) {
       return node.stateNode;
     }
   }
