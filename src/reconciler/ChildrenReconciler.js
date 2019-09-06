@@ -5,6 +5,61 @@ import { FRAGMENT, HOST_TEXT } from '../shared/workTags';
 import { PLACEMENT, DELETION } from '../shared/effectTags';
 import { createWorkInProgress, createFiberFromFragment, createFiberFromText } from './FiberNode';
 
+
+class ChildrenReconciler {
+  constructor (shouldTrackSideEffects) {
+    this.shouldTrackSideEffects = shouldTrackSideEffects;
+  }
+
+  singleText (
+    returnFiber,
+    currentFirstChild,
+    text
+  ) {
+    if (
+      !isNullOrUndefined(currentFirstChild) && 
+      currentFirstChild.tag === HOST_TEXT
+    ) {
+      deleteRemainingChildren(returnFiber, currentFirstChild.sibling);
+
+      const existing = useFiber(currentFirstChild, textContent);
+      existing.return = returnFiber;
+      return existing;
+    }
+    
+    deleteRemainingChildren(returnFiber, currentFirstChild);
+    
+    const fiber = createFiberFromText(textContent);
+
+    fiber.return = returnFiber;
+    return fiber;
+  }
+
+  deleteRemainingChildren (
+    returnFiber,
+    currentFirstChild
+  ) {
+    if (this.shouldTrackSideEffects) {
+      let childToDelete = currentFirstChild;
+      
+      while (!isNullOrUndefined(childToDelete)) {
+        deleteChild(returnFiber, childToDelete);
+        childToDelete = childToDelete.sibling;
+      }
+      return null;
+    }
+  }
+}
+
+function useFiber(fiber, pendingProps) {
+  const cloned = createWorkInProgress(fiber, pendingProps);
+  
+  cloned.index = 0;
+  cloned.sibling = null;
+  
+  return cloned;
+}
+
 export default function ChildrenReconciler (
   shouldTrackSideEffects
 ) {
@@ -67,8 +122,8 @@ export default function ChildrenReconciler (
 
     if (type === REACT_FRAGMENT_TYPE) {
       const fiber = createFiberFromFragment(newChild.props.children, element.key);
-      created.return = returnFiber;
-      return created;
+      fiber.return = returnFiber;
+      return fiber;
     } else {
       const fiber = createFiberFromElement(newChild);
       
@@ -304,12 +359,16 @@ export default function ChildrenReconciler (
   ) {
     if (!isNull(newChild)) {
       if (newChild.$$typeof) {
-        return placeSingleChild(reconcileSingleElement(returnFiber, currentFirstChild, newChild));
+        return placeSingleChild(
+          reconcileSingleElement(returnFiber, currentFirstChild, newChild)
+        );
       }
     }
 
     if (isString(newChild) || isNumber(newChild)) {
-      return placeSingleChild(reconcileSingleTextElement(returnFiber, currentFirstChild, String(newChild)));
+      return placeSingleChild(
+        reconcileSingleTextElement(returnFiber, currentFirstChild, String(newChild))
+      );
     }
 
     if (isArray(newChild)) {

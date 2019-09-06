@@ -1,7 +1,7 @@
-import { CLASS_COMPONENT, FUNCTION_COMPONENT, HOST_ROOT, HOST_COMPONENT } from '../../shared/workTags';
-import { UPDATE } from '../../shared/effectTags';
-import { isNullOrUndefined, isFunction } from '../../shared/is';
-import { resolveDefaultProps } from '../../shared';
+import { CLASS_COMPONENT, FUNCTION_COMPONENT, HOST_ROOT, HOST_COMPONENT } from '../../../shared/workTags';
+import { UPDATE } from '../../../shared/effectTags';
+import { isNullOrUndefined, isFunction } from '../../../shared/is';
+import { resolveDefaultProps } from '../../../shared';
 import commitUpdateQueue from './commitUpdateQueue';
 
 export default function commitLifeCycles (

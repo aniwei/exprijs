@@ -1,4 +1,4 @@
-import commitRoot from './commitRoot';
+import commitRoot from './commit/commitRoot';
 
 export default function completeRoot (
   root,

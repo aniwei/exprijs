@@ -1,8 +1,8 @@
-import { PLACEMENT, UPDATE, DELETION, PLACEMENT_AND_UPDATE } from '../../shared/effectTags';
-import { isNullOrUndefined } from '../../shared/is';
+import { PLACEMENT, UPDATE, DELETION, PLACEMENT_AND_UPDATE } from '../../../shared/effectTags';
+import { isNullOrUndefined } from '../../../shared/is';
 import commitPlacement from './commitPlacement';
 import commitWork from './commitWork';
-import worker from './index';
+import worker from '../index';
 
 
 export default function commitAllHostEffects () {

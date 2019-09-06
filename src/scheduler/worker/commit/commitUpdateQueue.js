@@ -1,4 +1,4 @@
-import { isNullOrUndefined, isFunction } from '../../shared/is';
+import { isNullOrUndefined, isFunction } from '../../../shared/is';
 
 export default function commitUpdateQueue (
   finishedWork, 

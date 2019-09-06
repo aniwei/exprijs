@@ -1,7 +1,7 @@
-import { FUNCTION_COMPONENT, HOST_COMPONENT, HOST_TEXT } from '../../shared/workTags';
-import { isNullOrUndefined } from '../../shared/is';
-import { INTERNAL_EVENT_HANDLERS_KEY } from '../../shared';
-import updateProperties from '../../renderer/config/updateProperties';
+import { FUNCTION_COMPONENT, HOST_COMPONENT, HOST_TEXT } from '../../../shared/workTags';
+import { isNullOrUndefined } from '../../../shared/is';
+import { INTERNAL_EVENT_HANDLERS_KEY } from '../../../shared';
+import updateProperties from '../../../renderer/config/updateProperties';
 
 export default function commitWork (
   current,

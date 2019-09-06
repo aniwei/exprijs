@@ -14,7 +14,7 @@ import mountIndeterminateComponent from '../updater/mountIndeterminateComponent'
 import updateHostComponent from '../updater/updateHostComponent';
 import updateHostRoot from '../updater/updateHostRoot';
 import updateHostText from '../updater/updateHostText';
-import scheduler from '..';
+import scheduler from '../index';
 
 export default function beginWork (
   current,

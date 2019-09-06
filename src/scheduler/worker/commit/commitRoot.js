@@ -1,9 +1,9 @@
-import { isNullOrUndefined } from '../../shared/is';
-import { PERFORMED_WORK } from '../../shared/effectTags';
-import ReactCurrentOwner from '../../react/ReactCurrentOwner';
+import { isNullOrUndefined } from '../../../shared/is';
+import { PERFORMED_WORK } from '../../../shared/effectTags';
+import ReactCurrentOwner from '../../../react/ReactCurrentOwner';
 import commitAllHostEffects from './commitAllHostEffects';
 import commitAllLifeCycles from './commitAllLifeCycles';
-import worker from './index';
+import worker from '../index';
 
 export default function commitRoot (
   root,
