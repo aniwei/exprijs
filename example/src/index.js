@@ -35,6 +35,12 @@ class App extends Component {
     text: 'hello work'
   }
 
+  componentDidMount () {
+    this.setState({
+      text: 'ok'
+    })
+  }
+
   getRef = () => {
     // debugger;
   }

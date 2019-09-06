@@ -6,60 +6,6 @@ import { PLACEMENT, DELETION } from '../shared/effectTags';
 import { createWorkInProgress, createFiberFromFragment, createFiberFromText } from './FiberNode';
 
 
-class ChildrenReconciler {
-  constructor (shouldTrackSideEffects) {
-    this.shouldTrackSideEffects = shouldTrackSideEffects;
-  }
-
-  singleText (
-    returnFiber,
-    currentFirstChild,
-    text
-  ) {
-    if (
-      !isNullOrUndefined(currentFirstChild) && 
-      currentFirstChild.tag === HOST_TEXT
-    ) {
-      deleteRemainingChildren(returnFiber, currentFirstChild.sibling);
-
-      const existing = useFiber(currentFirstChild, textContent);
-      existing.return = returnFiber;
-      return existing;
-    }
-    
-    deleteRemainingChildren(returnFiber, currentFirstChild);
-    
-    const fiber = createFiberFromText(textContent);
-
-    fiber.return = returnFiber;
-    return fiber;
-  }
-
-  deleteRemainingChildren (
-    returnFiber,
-    currentFirstChild
-  ) {
-    if (this.shouldTrackSideEffects) {
-      let childToDelete = currentFirstChild;
-      
-      while (!isNullOrUndefined(childToDelete)) {
-        deleteChild(returnFiber, childToDelete);
-        childToDelete = childToDelete.sibling;
-      }
-      return null;
-    }
-  }
-}
-
-function useFiber(fiber, pendingProps) {
-  const cloned = createWorkInProgress(fiber, pendingProps);
-  
-  cloned.index = 0;
-  cloned.sibling = null;
-  
-  return cloned;
-}
-
 export default function ChildrenReconciler (
   shouldTrackSideEffects
 ) {

@@ -22,6 +22,24 @@ export default function beginWork (
 ) {
   const { tag } = workInProgress;
 
+  if (
+    tag !== HOST_ROOT && 
+    !isNullOrUndefined(current)
+  ) {
+    const props = current.memoizedProps;
+    const nextProps = workInProgress.pendingProps;
+
+    if (
+      props !== nextProps ||
+      workInProgress.type !== current.type
+    ) {
+      //must be updated
+    } {
+
+      debugger;
+    }
+  }
+
   // if (
   //   !isNullOrUndefined(current) &&
   //   !scheduler.isRootRendering
