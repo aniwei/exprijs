@@ -1,4 +1,4 @@
-import { resolveDefaultProps, shallowEqual, EMPTY_OBJECT, EMPTY_CONTEXT } from '../../shared';
+import { resolveDefaultProps, shallowEqual, EMPTY_OBJECT, EMPTY_CONTEXT, REACT_INTERNAL_FIBER } from '../../shared';
 import { isNull, isFunction, isNullOrUndefined, isLegacyContextConsumer, isContextProvider } from '../../shared/is';
 import { PLACEMENT, UPDATE, PERFORMED_WORK, NO_EFFECT, DID_CAPTURE } from '../../shared/effectTags';
 import classComponentUpdater from './classComponentUpdater';
@@ -38,7 +38,7 @@ function constructClassInstance (
 
   instance.updater = classComponentUpdater;
   workInProgress.stateNode = instance;
-  instance._reactInternalInstance = workInProgress;
+  instance[REACT_INTERNAL_FIBER] = workInProgress;
 
   return instance;
 }
@@ -316,7 +316,6 @@ export default function updateClassComponent (
 ) {
   const Component = workInProgress.type;
   const unresolvedProps = workInProgress.pendingProps;
-  debugger;
   const resolvedProps = workInProgress.elementType === Component ?
     unresolvedProps :
     resolveDefaultProps(Component, unresolvedProps);

@@ -14,7 +14,6 @@ import mountIndeterminateComponent from '../updater/mountIndeterminateComponent'
 import updateHostComponent from '../updater/updateHostComponent';
 import updateHostRoot from '../updater/updateHostRoot';
 import updateHostText from '../updater/updateHostText';
-import scheduler from '../index';
 
 export default function beginWork (
   current,
@@ -24,50 +23,21 @@ export default function beginWork (
 
   debugger;
 
-  if (
-    tag !== HOST_ROOT && 
-    !isNullOrUndefined(current)
-  ) {
-    const props = current.memoizedProps;
-    const nextProps = workInProgress.pendingProps;
-
-    if (
-      props !== nextProps ||
-      workInProgress.type !== current.type
-    ) {
-      //must be updated
-    } {
-      // const updateQueue = workInProgress.updateQueue;
-      // if (
-      //   !isNullOrUndefined(updateQueue) &&
-      //   !isNullOrUndefined(updateQueue.firstUpdate)
-      // ) {
-
-      // }
-
-      cloneChildFibers(current, workInProgress);
-
-      return workInProgress.child;
+  if (!isNullOrUndefined(current)) {
+    if (tag === HOST_ROOT) {
+      if (workInProgress.child) {
+        return workInProgress.child;
+      }
+    } else {
+      debugger;
+      if (
+        props !== nextProps ||
+        workInProgress.type !== current.type
+      ) {
+        debugger;
+      }
     }
   }
-
-  // if (
-  //   !isNullOrUndefined(current) &&
-  //   !scheduler.isRootRendering
-  // ) {
-  //   const props = current.memoizedProps;
-  //   const newProps = workInProgress.pendingProps;
-
-  //   if (props === newProps) {
-  //     if (tag === HOST_ROOT) {
-  //       // pushHostRootContext(workInProgress);
-  //     }
-
-  //     cloneChildFibers(current, workInProgress);
-
-  //     return workInProgress.child;
-  //   }
-  // }
 
   switch (tag) {
     case INDETERMINATE_COMPONENT: {

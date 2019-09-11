@@ -1,12 +1,16 @@
+import { REACT_INTERNAL_FIBER } from '../../shared';
+import { REPLACE_STATE, FORCE_UPDATE } from '../../shared/updateTags';
 import scheduleWork from '../worker/scheduleWork';
 import createUpdate from './createUpdate';
 import enqueueUpdate from './enqueueUpdate';
 import { isFunction } from '../../shared/is';
 
 const classComponentUpdater = {
-  isMounted: false,
+  isMounted (Component) {
+    return instance._reactInternalFiber ? true : false;
+  },
   enqueueSetState(instance, payload, callback) {
-    const fiber = instance._reactInternalInstance;
+    const fiber = instance._reactInternalFiber;
     const update = createUpdate();
     
     update.payload = payload;
@@ -19,12 +23,32 @@ const classComponentUpdater = {
     scheduleWork(fiber);
   },
 
-  enqueueReplaceState(inst, payload, callback) {
+  enqueueReplaceState(instance, payload, callback) {
+    const fiber = instance[REACT_INTERNAL_FIBER];
+
+    const update = createUpdate();
+    update.tag = REPLACE_STATE;
+    update.payload = payload;
+
+    if (isFunction(callback)) {
+      update.callback = callback;
+    }
     
+    enqueueUpdate(fiber, update);
+    scheduleWork(fiber);
   },
 
-  enqueueForceUpdate(inst, callback) {
-    
+  enqueueForceUpdate(instance, callback) {
+    const fiber = instance[REACT_INTERNAL_FIBER];
+    const update = createUpdate();
+    update.tag = FORCE_UPDATE;
+
+    if (isFunction(callback)) {
+      update.callback = callback;
+    }
+
+    enqueueUpdate(fiber, update);
+    scheduleWork(fiber);
   },
 };
 
