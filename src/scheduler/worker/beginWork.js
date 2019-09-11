@@ -21,20 +21,24 @@ export default function beginWork (
 ) {
   const { tag } = workInProgress;
 
-  debugger;
-
   if (!isNullOrUndefined(current)) {
     if (tag === HOST_ROOT) {
       if (workInProgress.child) {
+        cloneChildFibers(current, workInProgress);
+  
         return workInProgress.child;
       }
     } else {
-      debugger;
+      const props = workInProgress.memoizedProps;
+      const nextProps = workInProgress.pendingProps;
+
       if (
         props !== nextProps ||
         workInProgress.type !== current.type
       ) {
-        debugger;
+        cloneChildFibers(current, workInProgress);
+
+        return workInProgress.child;
       }
     }
   }
