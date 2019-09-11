@@ -22,6 +22,8 @@ export default function beginWork (
 ) {
   const { tag } = workInProgress;
 
+  debugger;
+
   if (
     tag !== HOST_ROOT && 
     !isNullOrUndefined(current)
@@ -35,8 +37,17 @@ export default function beginWork (
     ) {
       //must be updated
     } {
+      // const updateQueue = workInProgress.updateQueue;
+      // if (
+      //   !isNullOrUndefined(updateQueue) &&
+      //   !isNullOrUndefined(updateQueue.firstUpdate)
+      // ) {
 
-      debugger;
+      // }
+
+      cloneChildFibers(current, workInProgress);
+
+      return workInProgress.child;
     }
   }
 

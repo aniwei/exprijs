@@ -3,6 +3,8 @@ import { isNullOrUndefined, isString, isFunction, isNumber } from '../../shared/
 import ensureListeningTo from '../../event/ensureListeningTo';
 import registrationNameModules from '../../event/registrationNameModules';
 
+import { getProperty } from './properties';
+
 export default function setInitialDOMProperties (
   tag, 
   element, 
@@ -85,5 +87,10 @@ export function setValueForProperty (
   propName, 
   nextProp
 ) {
-  element.setAttribute(propName, nextProp)
+  const property = getProperty(propName);
+
+  if (property) {
+    element.setAttribute(property.attributeName, nextProp);
+  }
+
 }

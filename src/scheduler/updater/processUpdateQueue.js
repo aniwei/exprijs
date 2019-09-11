@@ -38,8 +38,6 @@ export default function processUpdateQueue (
     update = update.next;
   }
 
-  console.log('=====> updateQueue', queue);
-
   queue.firstUpdate = null;
   queue.lastUpdate = null;
   queue.baseState = state;

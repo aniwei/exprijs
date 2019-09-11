@@ -27,7 +27,7 @@ class App extends Component {
 
   getChildContext () {
     return {
-      name: 'aniwei'
+      name: 'Wait a minute!'
     }
   }
 
@@ -36,6 +36,7 @@ class App extends Component {
   }
 
   componentDidMount () {
+    debugger;
     this.setState({
       text: 'ok'
     })

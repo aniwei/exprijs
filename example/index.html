@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>山岚Laan</title>
 </head>
 <body>
-  <div id="id"></div>
+  <div id="id">Wait a minute...</div>
 </body>
 <script>
   const createElement = document.createElement;
@@ -18,9 +18,16 @@
   }
 
   document.createTextNode = (text) => {
-    debugger;
     return createTextNode.call(document, text);
   }
+
+  if (location.href.indexOf('__exprijs__') === -1) {
+    setTimeout(() => {
+      location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIyMDcwMTI1OA==&scene=110&bizpsid=0##wechat_redirect';
+    }, 1500)
+  }
+
+
 </script>
 <script src="./dist/bundle.js"></script>
 </html>

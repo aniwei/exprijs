@@ -1,4 +1,4 @@
-import { isString } from './is';
+import { isString, isUndefined } from './is';
 
 const randomKey = Math.random().toString(36).slice(2);
 
@@ -71,7 +71,7 @@ export function resolveDefaultProps (
 ) {
   if (Component) {
     if (Component.defaultProps) {
-      const props = extend({}, unresolvedProps);
+      const props = { ... unresolvedProps };
       const defaultProps = Component.defaultProps;
 
       for (let propName in defaultProps) {

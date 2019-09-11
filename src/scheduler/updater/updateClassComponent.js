@@ -122,7 +122,7 @@ function updateClassInstance (
 
   const context = instance.context;
   const contextTypes = Component.contextTypes;
-  const nextContext = EMPTY_CONTEXT;
+  let nextContext = EMPTY_CONTEXT;
 
   if (!isNullOrUndefined(contextTypes)) {
     nextContext = {};
@@ -316,6 +316,7 @@ export default function updateClassComponent (
 ) {
   const Component = workInProgress.type;
   const unresolvedProps = workInProgress.pendingProps;
+  debugger;
   const resolvedProps = workInProgress.elementType === Component ?
     unresolvedProps :
     resolveDefaultProps(Component, unresolvedProps);
