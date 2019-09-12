@@ -1,7 +1,20 @@
-import React, { Component, user } from 'react';
+import React, { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 import { document } from 'document';
+
+const Worker = (props) => {
+  const [number, setNumber] = useState(0);
+
+  setTimeout(() => {
+    debugger;
+    setNumber(1);
+  }, 4000)
+
+  return (
+    <div>{number || props.children}</div>
+  );
+}
 
 class Work extends Component {
   static contextTypes = {
@@ -48,7 +61,7 @@ class App extends Component {
   render () {
     // debugger;
     return <div className={this.props.className}>
-      <Work ref={this.getRef} children={this.state.text} />
+      <Worker ref={this.getRef} children={this.state.text} />
     </div>
   }
 }
