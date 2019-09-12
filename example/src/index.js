@@ -10,7 +10,7 @@ class Work extends Component {
 
   render () {
     return <div>
-      {this.context.name}
+      {this.props.children || this.context.name}
     </div>
   }
 }
@@ -36,7 +36,6 @@ class App extends Component {
   }
 
   componentDidMount () {
-    debugger;
     this.setState({
       text: 'ok'
     })
@@ -49,7 +48,7 @@ class App extends Component {
   render () {
     // debugger;
     return <div className={this.props.className}>
-      <Work ref={this.getRef} />
+      <Work ref={this.getRef} children={this.state.text} />
     </div>
   }
 }

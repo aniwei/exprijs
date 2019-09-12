@@ -8,7 +8,6 @@ export default function workLoopSync (
   fiber,
 ) {
   if (!worker.nextUnitOfWork) {
-    debugger;
     worker.nextUnitOfWork = createWorkInProgress(fiber, null);
   }
 

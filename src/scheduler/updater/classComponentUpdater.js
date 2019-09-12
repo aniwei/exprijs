@@ -1,4 +1,4 @@
-import { REACT_INTERNAL_FIBER } from '../../shared';
+import { REACT_INTERNAL_FIBER, WORKING } from '../../shared';
 import { REPLACE_STATE, FORCE_UPDATE } from '../../shared/updateTags';
 import scheduleWork from '../worker/scheduleWork';
 import createUpdate from './createUpdate';
@@ -18,6 +18,8 @@ const classComponentUpdater = {
     if (isFunction(callback)) {
       update.callback = callback;
     }
+
+    fiber.status = WORKING;
     
     enqueueUpdate(fiber, update);
     scheduleWork(fiber);
@@ -33,6 +35,8 @@ const classComponentUpdater = {
     if (isFunction(callback)) {
       update.callback = callback;
     }
+
+    fiber.status = WORKING;
     
     enqueueUpdate(fiber, update);
     scheduleWork(fiber);
@@ -42,6 +46,8 @@ const classComponentUpdater = {
     const fiber = instance[REACT_INTERNAL_FIBER];
     const update = createUpdate();
     update.tag = FORCE_UPDATE;
+
+    fiber.status = WORKING;
 
     if (isFunction(callback)) {
       update.callback = callback;

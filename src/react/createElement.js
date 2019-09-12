@@ -1,5 +1,5 @@
 import ReactElement from './ReactElement';
-import { isFunction } from '../shared/is';
+import { isFunction, isUndefined } from '../shared/is';
 import { resolveDefaultProps } from '../shared';
 
 export default function createElement (
@@ -9,20 +9,18 @@ export default function createElement (
 ) {
   const { length } = children;
 
-  if (length > 0) {
-    if (length === 1) {
-      children = children[0];
-    }
-  } else {
-    children = undefined;
-  } 
-
   if (isFunction(type)) {
     props = resolveDefaultProps(type, props);
   }
 
+  if (length > 0) {
+    if (length === 1) {
+      props.children = children[0];
+    }
+  } 
+
   return ReactElement(
     type, 
-    { ...props, children }
+    { ...props }
   );
 }

@@ -1,7 +1,7 @@
 import worker from './index';
 import performUnitOfWork from './performUnitOfWork';
 import { createWorkInProgress } from '../../reconciler/FiberNode';
-import { isNull, isNullOrUndefined } from '../../shared/is';
+import { isNullOrUndefined } from '../../shared/is';
 import { EXPIRE_TIME } from '../../shared';
 
 export default function workLoop (

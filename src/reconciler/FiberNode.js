@@ -39,11 +39,13 @@ export function createWorkInProgress (
     memoizedState, 
     updateQueue, 
     sibling,
+    status,
     index,
     ref,
     contextDependencies 
   } = current;
 
+  workInProgress.status = status;
   workInProgress.child = child;
   workInProgress.memoizedProps = memoizedProps;
   workInProgress.memoizedState = memoizedState;

@@ -6,6 +6,10 @@ import {
   HOST_COMPONENT,
   INDETERMINATE_COMPONENT
 } from '../../shared/workTags';
+import {
+  NO_WORK,
+  WORKING
+} from '../../shared';
 import { isNull, isNullOrUndefined } from '../../shared/is';
 import cloneChildFibers from '../../reconciler/cloneChildFibers';
 import updateClassComponent from '../updater/updateClassComponent';
@@ -22,26 +26,23 @@ export default function beginWork (
   const { tag } = workInProgress;
 
   if (!isNullOrUndefined(current)) {
-    if (tag === HOST_ROOT) {
-      if (workInProgress.child) {
-        cloneChildFibers(current, workInProgress);
-  
-        return workInProgress.child;
-      }
-    } else {
-      const props = workInProgress.memoizedProps;
-      const nextProps = workInProgress.pendingProps;
+    const props = workInProgress.memoizedProps;
+    const nextProps = workInProgress.pendingProps;
 
-      if (
-        props !== nextProps ||
-        workInProgress.type !== current.type
-      ) {
+    if (
+      props === nextProps &&
+      workInProgress.type === current.type
+    ) {
+      if (workInProgress.status === NO_WORK) {
         cloneChildFibers(current, workInProgress);
 
         return workInProgress.child;
       }
+
     }
   }
+
+  workInProgress.status = NO_WORK;
 
   switch (tag) {
     case INDETERMINATE_COMPONENT: {

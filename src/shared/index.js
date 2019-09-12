@@ -24,6 +24,9 @@ export const EMPTY_REFS = {};
 export const EXPIRE_TIME = 1;
 
 
+export const NO_WORK = 0;
+export const WORKING = 1;
+
 export function noop () {}
 export const assign = Object.assign;
 export const keys = Object.keys;
